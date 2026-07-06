@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload — SpotLight</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <span class="logo-mark"></span>
+                <span class="logo-text">SpotLight<span class="logo-accent">.</span></span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="discover.html">New Arrivals</a></li>
+                <li><a href="artists.html">Artists</a></li>
+                <li><a href="instrumentals.html">Beats</a></li>
+                <li><a href="upload.html" class="active">Upload</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="signup.html" class="nav-login">Log In</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <div class="page-hero-glow"></div>
+        <div class="container">
+            <div class="page-hero-inner">
+                <span class="page-eyebrow">SUBMIT YOUR SOUND</span>
+                <h1 class="page-title">Let Nigeria <span class="page-title-muted">Hear You</span></h1>
+                <p class="page-lead">Upload your track. Our curators review every submission within 48 hours. The next star could be you.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 40px;">
+        <div class="container">
+            <div class="upload-shell">
+
+                <!-- Upload Steps -->
+                <div class="upload-steps-bar">
+                    <div class="upload-step active">
+                        <span class="upload-step-num">1</span>
+                        <span class="upload-step-label">Track Details</span>
+                    </div>
+                    <div class="upload-step-line"></div>
+                    <div class="upload-step">
+                        <span class="upload-step-num">2</span>
+                        <span class="upload-step-label">Files</span>
+                    </div>
+                    <div class="upload-step-line"></div>
+                    <div class="upload-step">
+                        <span class="upload-step-num">3</span>
+                        <span class="upload-step-label">Review</span>
+                    </div>
+                </div>
+
+                <form class="upload-form-premium" onsubmit="handleUpload(event)">
+
+                    <div class="form-block">
+                        <label class="form-label-p">Track Title <span>*</span></label>
+                        <input type="text" class="input-p" placeholder="e.g. Adanna Rising" required>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-block">
+                            <label class="form-label-p">Artist / Stage Name <span>*</span></label>
+                            <input type="text" class="input-p" placeholder="Your artist name" required>
+                        </div>
+                        <div class="form-block">
+                            <label class="form-label-p">Genre <span>*</span></label>
+                            <select class="input-p" required>
+                                <option value="">Choose genre</option>
+                                <option>Afrobeats</option>
+                                <option>Amapiano</option>
+                                <option>Alté</option>
+                                <option>Hip-Hop / Rap</option>
+                                <option>R&amp;B</option>
+                                <option>Highlife</option>
+                                <option>Gospel</option>
+                                <option>Fuji</option>
+                                <option>Naija Pop</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-block">
+                            <label class="form-label-p">City / Location</label>
+                            <input type="text" class="input-p" placeholder="e.g. Lagos, Nigeria">
+                        </div>
+                        <div class="form-block">
+                            <label class="form-label-p">Producer / Beat By</label>
+                            <input type="text" class="input-p" placeholder="Producer credit">
+                        </div>
+                    </div>
+
+                    <div class="form-block">
+                        <label class="form-label-p">About This Track</label>
+                        <textarea class="input-p" rows="4" placeholder="The story, inspiration, or vibe behind the song..."></textarea>
+                    </div>
+
+                    <div class="form-block">
+                        <label class="form-label-p">Lyrics (Optional)</label>
+                        <textarea class="input-p" rows="6" placeholder="Paste lyrics here..."></textarea>
+                    </div>
+
+                    <div class="form-block">
+                        <label class="form-label-p">Audio File <span>*</span></label>
+                        <div class="drop-zone">
+                            <div class="drop-zone-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <path d="M12 3v12"/>
+                                    <path d="m8 7 4-4 4 4"/>
+                                    <path d="M3 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"/>
+                                </svg>
+                            </div>
+                            <p class="drop-zone-title">Drop your audio file here</p>
+                            <p class="drop-zone-sub">or <span>browse from your device</span></p>
+                            <p class="drop-zone-hint">MP3, WAV, FLAC · Max 50MB</p>
+                            <input type="file" accept="audio/*" required>
+                        </div>
+                    </div>
+
+                    <div class="form-block">
+                        <label class="form-label-p">Cover Art</label>
+                        <div class="drop-zone">
+                            <div class="drop-zone-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                    <circle cx="9" cy="9" r="2"/>
+                                    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                                </svg>
+                            </div>
+                            <p class="drop-zone-title">Upload cover art</p>
+                            <p class="drop-zone-sub">or <span>browse from your device</span></p>
+                            <p class="drop-zone-hint">JPG, PNG · Minimum 1000×1000px</p>
+                            <input type="file" accept="image/*">
+                        </div>
+                    </div>
+
+                    <div class="form-row-2">
+                        <div class="form-block">
+                            <label class="form-label-p">Contact Email <span>*</span></label>
+                            <input type="email" class="input-p" placeholder="you@email.com" required>
+                        </div>
+                        <div class="form-block">
+                            <label class="form-label-p">Instagram Handle</label>
+                            <input type="text" class="input-p" placeholder="@yourname">
+                        </div>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">This is my original work and I own all rights to this recording. I've read the <a href="#">Terms of Service</a>.</label>
+                    </div>
+
+                    <div class="form-submit-row">
+                        <button type="button" class="btn btn-ghost btn-lg">Save Draft</button>
+                        <button type="submit" class="btn btn-primary btn-lg">Submit For Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <span class="logo-mark"></span>
+                        <span class="logo-text">SpotLight<span class="logo-accent">.</span></span>
+                    </a>
+                    <p>Built in Lagos. Made for Africa. Heard everywhere.</p>
+                    <div class="footer-social">
+                        <a href="#">IG</a><a href="#">X</a><a href="#">TT</a><a href="#">YT</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Platform</h5>
+                    <ul>
+                        <li><a href="discover.html">Discover</a></li>
+                        <li><a href="artists.html">Artists</a></li>
+                        <li><a href="instrumentals.html">Beats</a></li>
+                        <li><a href="upload.html">Upload</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 SpotLight Music. Naija to the world.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+</body>
+</html>

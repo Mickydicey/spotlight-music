@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artists — SpotLight</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <span class="logo-mark"></span>
+                <span class="logo-text">SpotLight<span class="logo-accent">.</span></span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="discover.html">New Arrivals</a></li>
+                <li><a href="artists.html" class="active">Artists</a></li>
+                <li><a href="instrumentals.html">Beats</a></li>
+                <li><a href="upload.html">Upload</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="signup.html" class="nav-login">Log In</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <div class="page-hero-glow"></div>
+        <div class="container">
+            <div class="page-hero-inner">
+                <span class="page-eyebrow">THE ROSTER</span>
+                <h1 class="page-title">Voices Shaping <span class="page-title-muted">The Culture</span></h1>
+                <p class="page-lead">From bedroom producers in Enugu to studio veterans in Lagos — meet the artists writing the next chapter of Nigerian music.</p>
+
+                <div class="page-search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input type="text" placeholder="Search artists by name, genre, or city...">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="filters-section">
+        <div class="container">
+            <div class="chip-row">
+                <button class="chip active">All</button>
+                <button class="chip">Afrobeats</button>
+                <button class="chip">Amapiano</button>
+                <button class="chip">Alté</button>
+                <button class="chip">Hip-Hop</button>
+                <button class="chip">R&amp;B</button>
+                <button class="chip">Highlife</button>
+                <button class="chip">Gospel</button>
+                <button class="chip">Fuji</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 40px;">
+        <div class="container">
+            <div class="artist-grid-full">
+
+                <a href="artist-profile.html" class="artist-card-premium">
+                    <div class="artist-card-media" style="background: linear-gradient(180deg, #6a1b9a 0%, #2a0845 100%);">
+                        <span class="artist-card-badge">TRENDING</span>
+                        <div class="artist-card-initial">C</div>
+                        <button class="artist-card-play">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="artist-card-info">
+                        <h3>Chinemerem</h3>
+                        <p class="artist-card-meta">Afrobeats · Enugu</p>
+                        <div class="artist-card-stats">
+                            <span>72K plays</span>
+                            <span class="dot-sep"></span>
+                            <span>8 tracks</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="artist-profile.html" class="artist-card-premium">
+                    <div class="artist-card-media" style="background: linear-gradient(180deg, #c026d3 0%, #4a044e 100%);">
+                        <span class="artist-card-badge">EDITOR'S PICK</span>
+                        <div class="artist-card-initial">S</div>
+                        <button class="artist-card-play">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="artist-card-info">
+                        <h3>Samira Bello</h3>
+                        <p class="artist-card-meta">R&amp;B · Lagos</p>
+                        <div class="artist-card-stats">
+                            <span>108K plays</span>
+                            <span class="dot-sep"></span>
+                            <span>12 tracks</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="artist-profile.html" class="artist-card-premium">
+                    <div class="artist-card-media" style="background: linear-gradient(180deg, #dc2626 0%, #450a0a 100%);">
+                        <span class="artist-card-badge">RISING</span>
+                        <div class="artist-card-initial">K</div>
+                        <button class="artist-card-play">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="artist-card-info">
+                        <h3>Kelechi Alex</h3>
+                        <p class="artist-card-meta">Hip-Hop · Port Harcourt</p>
+                        <div class="artist-card-stats">
+                            <span>48K plays</span>
+                            <span class="dot-sep"></span>
+                            <span>15 tracks</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="artist-profile.html" class="artist-card-premium">
+                    <div class="artist-card-media" style="background: linear-gradient(180deg, #059669 0%, #064e3b 100%);">
+                        <span class="artist-card-badge">NEW</span>
+                        <div class="artist-card-initial">T</div>
+                        <button class="artist-card-play">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="artist-card-info">
+                        <h3>Tobi Wave</h3>
+                        <p class="artist-card-meta">Amapiano · Ibadan</p>
+                        <div class="artist-card-stats">
+                            <span>94K plays</span>
+                            <span class="dot-sep"></span>
+                            <span>10 tracks</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="artist-profile.html" class="artist-card-premium">
+                    <div class="artist-card-media" style="background: linear-gradient(180deg, #ea580c 0%, #7c2d12 100%);">
+                        <span class="artist-card-badge">ALTÉ WAVE</span>
+                        <div class="artist-card-initial">A</div>
+                        <button class="artist-card-play">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="artist-card-info">
+                        <h3>Ada Grace</h3>
+                        <p class="artist-card-meta">Alté · Abuja</p>
+                        <div class="artist-card-stats">
+                            <span>37K plays</span>
+                            <span class="dot-sep"></span>
+                            <span>6 tracks</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="artist-profile.html" class="artist-card-premium">
+                    <div class="artist-card-media" style="background: linear-gradient(180deg, #0891b2 0%, #164e63 100%);">
+                        <span class="artist-card-badge">DJ SET</span>
+                        <div class="artist-card-initial">D</div>
+                        <button class="artist-card-play">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="artist-card-info">
+                        <h3>DJ Kream</h3>
+                        <p class="artist-card-meta">Highlife · Owerri</p>
+                        <div class="artist-card-stats">
+                            <span>22K plays</span>
+                            <span class="dot-sep"></span>
+                            <span>18 tracks</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="artist-profile.html" class="artist-card-premium">
+                    <div class="artist-card-media" style="background: linear-gradient(180deg, #db2777 0%, #831843 100%);">
+                        <span class="artist-card-badge">VOCALIST</span>
+                        <div class="artist-card-initial">Z</div>
+                        <button class="artist-card-play">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="artist-card-info">
+                        <h3>Zaria Okoye</h3>
+                        <p class="artist-card-meta">R&amp;B · Kano</p>
+                        <div class="artist-card-stats">
+                            <span>55K plays</span>
+                            <span class="dot-sep"></span>
+                            <span>9 tracks</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="artist-profile.html" class="artist-card-premium">
+                    <div class="artist-card-media" style="background: linear-gradient(180deg, #7c3aed 0%, #1e1b4b 100%);">
+                        <span class="artist-card-badge">PRODUCER</span>
+                        <div class="artist-card-initial">B</div>
+                        <button class="artist-card-play">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+                    <div class="artist-card-info">
+                        <h3>BeatByBaba</h3>
+                        <p class="artist-card-meta">Producer · Lagos</p>
+                        <div class="artist-card-stats">
+                            <span>84K plays</span>
+                            <span class="dot-sep"></span>
+                            <span>24 beats</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div style="text-align:center; margin-top: 60px;">
+                <button class="btn btn-ghost btn-lg">Load More Artists</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo">
+                        <span class="logo-mark"></span>
+                        <span class="logo-text">SpotLight<span class="logo-accent">.</span></span>
+                    </a>
+                    <p>Built in Lagos. Made for Africa. Heard everywhere.</p>
+                    <div class="footer-social">
+                        <a href="#">IG</a><a href="#">X</a><a href="#">TT</a><a href="#">YT</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Platform</h5>
+                    <ul>
+                        <li><a href="discover.html">Discover</a></li>
+                        <li><a href="artists.html">Artists</a></li>
+                        <li><a href="instrumentals.html">Beats</a></li>
+                        <li><a href="upload.html">Upload</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 SpotLight Music. Naija to the world.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+</body>
+</html>
