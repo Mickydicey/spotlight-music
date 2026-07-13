@@ -2378,3 +2378,164 @@ textarea.input-p {
     .page-title { font-size: 2rem; }
     .profile-name { font-size: 2rem; }
 }
+/* ===================================
+   ENHANCED MEDIA PLAYER
+=================================== */
+
+.mini-player-bar {
+    grid-template-columns: 1fr auto 1.4fr;
+}
+
+/* Progress bar - now clickable */
+.mp-progress {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: height 0.2s ease;
+}
+
+.mp-progress:hover {
+    height: 6px;
+}
+
+.mp-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--brand);
+    border-radius: 3px;
+    transition: width 0.1s linear;
+    position: relative;
+}
+
+.mp-progress:hover .mp-progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background: var(--brand);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(233, 69, 96, 0.5);
+}
+
+/* Shuffle & Repeat active states */
+.mp-btn.active {
+    color: var(--brand);
+    background: rgba(233, 69, 96, 0.1);
+}
+
+.mp-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--brand);
+}
+
+.mp-btn {
+    position: relative;
+}
+
+/* Volume control */
+.mp-volume {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-2);
+}
+
+.mp-volume-slider {
+    width: 70px;
+    height: 3px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.mp-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.mp-volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.3);
+    background: var(--brand);
+}
+
+.mp-volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text);
+    cursor: pointer;
+    border: none;
+}
+
+/* Playing animation on active card */
+.fire-play.playing,
+.artist-card-play.playing,
+.beat-play-p.playing,
+.track-btn-play.playing {
+    background: var(--brand) !important;
+    color: #fff !important;
+    animation: playPulse 2s ease-in-out infinite;
+}
+
+@keyframes playPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(233, 69, 96, 0.5); }
+    50% { box-shadow: 0 0 0 8px rgba(233, 69, 96, 0); }
+}
+
+/* Toast animation */
+@keyframes toastSlide {
+    from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+/* Loading spinner for track loading */
+.mp-play.loading {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Mobile - hide volume slider */
+@media (max-width: 768px) {
+    .mini-player-bar {
+        grid-template-columns: 1fr auto;
+    }
+    .mp-right {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .mp-volume {
+        display: none;
+    }
+    .mp-time {
+        font-size: 0.7rem;
+    }
+}
