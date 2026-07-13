@@ -2539,3 +2539,41 @@ textarea.input-p {
         font-size: 0.7rem;
     }
 }
+/* ===================================
+   NOW PLAYING INDICATORS
+=================================== */
+
+/* Active play button glow effect */
+.play-active {
+    background: var(--brand) !important;
+    color: #fff !important;
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.play-active svg {
+    color: #fff !important;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(233, 69, 96, 0.6);
+    }
+    50% { 
+        box-shadow: 0 0 0 10px rgba(233, 69, 96, 0);
+    }
+}
+
+/* Loading spinner for play button */
+.mp-play.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.mp-play.loading svg {
+    animation: spinLoader 1s linear infinite;
+}
+
+@keyframes spinLoader {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
