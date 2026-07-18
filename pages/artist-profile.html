@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chinemerem — SpotLight</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -17,186 +17,178 @@
             </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="discover.html">New Arrivals</a></li>
+                <li><a href="stories.html">Stories</a></li>
                 <li><a href="artists.html" class="active">Artists</a></li>
-                <li><a href="instrumentals.html">Beats</a></li>
-                <li><a href="upload.html">Upload</a></li>
+                <li><a href="listen.html">Listen</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="signup.html" class="nav-login">Log In</a>
-                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                <a href="#" class="nav-login">Newsletter</a>
+                <a href="#" class="btn btn-primary">Subscribe</a>
                 <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
             </div>
         </div>
     </nav>
 
     <!-- PROFILE HERO -->
-    <section class="profile-hero-premium">
+    <section class="profile-hero">
         <div class="profile-hero-bg" style="background: linear-gradient(135deg, #6a1b9a 0%, #2a0845 100%);"></div>
         <div class="profile-hero-overlay"></div>
         <div class="container">
             <div class="profile-hero-content">
-                <div class="profile-avatar-lg">
+                <div class="profile-avatar-lg" style="background: linear-gradient(135deg, #6a1b9a, #2a0845);">
                     <span>C</span>
                 </div>
-                <div class="profile-hero-info">
-                    <div class="profile-verified">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                        VERIFIED ARTIST
-                    </div>
+                <div>
+                    <span class="profile-verified">✓ SPOTLIGHTED ARTIST</span>
                     <h1 class="profile-name">Chinemerem</h1>
                     <p class="profile-tagline">Afrobeats · Enugu, Nigeria</p>
-                    <div class="profile-numbers">
-                        <div>
-                            <span class="profile-num">72K</span>
-                            <span class="profile-num-label">Monthly Listeners</span>
-                        </div>
-                        <div>
-                            <span class="profile-num">3.2K</span>
-                            <span class="profile-num-label">Followers</span>
-                        </div>
-                        <div>
-                            <span class="profile-num">8</span>
-                            <span class="profile-num-label">Tracks</span>
-                        </div>
-                    </div>
                     <div class="profile-actions-row">
                         <button class="btn btn-primary btn-lg">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right:4px"><path d="M8 5v14l11-7z"/></svg>
-                            Play
+                            Play All
                         </button>
                         <button class="btn btn-ghost btn-lg">Follow</button>
-                        <button class="btn btn-ghost btn-lg">Contact</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT -->
-    <section class="section" style="padding-bottom: 60px;">
-        <div class="container">
-            <div class="profile-grid-layout">
-                <div class="profile-main-col">
-                    <h2 class="profile-section-h">Popular Tracks</h2>
-                    <div class="track-list-premium">
-                        <div class="track-row">
-                            <span class="track-rank">01</span>
-                            <div class="track-thumb" style="background: linear-gradient(135deg, #6a1b9a, #2a0845);"></div>
-                            <div class="track-main">
-                                <h4>Adanna Rising</h4>
-                                <p>Chinemerem</p>
-                            </div>
-                            <span class="track-tag">Afrobeats</span>
-                            <span class="track-plays-num">72K</span>
-                            <span class="track-len">3:24</span>
-                            <button class="track-btn-play">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                            </button>
-                        </div>
+    <!-- CONTENT -->
+    <section class="container">
+        <div class="profile-grid-layout">
 
-                        <div class="track-row">
-                            <span class="track-rank">02</span>
-                            <div class="track-thumb" style="background: linear-gradient(135deg, #7c3aed, #1e1b4b);"></div>
-                            <div class="track-main">
-                                <h4>Golden Hour</h4>
-                                <p>Chinemerem</p>
-                            </div>
-                            <span class="track-tag">Afrobeats</span>
-                            <span class="track-plays-num">54K</span>
-                            <span class="track-len">4:12</span>
-                            <button class="track-btn-play">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                            </button>
+            <!-- MAIN CONTENT -->
+            <div>
+                <h2 class="profile-section-h">Popular Tracks</h2>
+                <div class="track-list-premium">
+                    <div class="track-row">
+                        <span class="track-rank">01</span>
+                        <div class="track-thumb" style="background: linear-gradient(135deg, #6a1b9a, #2a0845);"></div>
+                        <div class="track-main">
+                            <h4>Adanna Rising</h4>
+                            <p>Chinemerem</p>
                         </div>
+                        <span class="track-tag">Afrobeats</span>
+                        <span class="track-len">3:24</span>
+                        <button class="track-btn-play">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
 
-                        <div class="track-row">
-                            <span class="track-rank">03</span>
-                            <div class="track-thumb" style="background: linear-gradient(135deg, #c026d3, #4a044e);"></div>
-                            <div class="track-main">
-                                <h4>Nkechi (feat. Samira)</h4>
-                                <p>Chinemerem</p>
-                            </div>
-                            <span class="track-tag">R&amp;B</span>
-                            <span class="track-plays-num">89K</span>
-                            <span class="track-len">3:48</span>
-                            <button class="track-btn-play">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                            </button>
+                    <div class="track-row">
+                        <span class="track-rank">02</span>
+                        <div class="track-thumb" style="background: linear-gradient(135deg, #7c3aed, #1e1b4b);"></div>
+                        <div class="track-main">
+                            <h4>Golden Hour</h4>
+                            <p>Chinemerem</p>
                         </div>
+                        <span class="track-tag">Afrobeats</span>
+                        <span class="track-len">4:12</span>
+                        <button class="track-btn-play">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
 
-                        <div class="track-row">
-                            <span class="track-rank">04</span>
-                            <div class="track-thumb" style="background: linear-gradient(135deg, #059669, #064e3b);"></div>
-                            <div class="track-main">
-                                <h4>Enugu to Lagos</h4>
-                                <p>Chinemerem</p>
-                            </div>
-                            <span class="track-tag">Afrobeats</span>
-                            <span class="track-plays-num">41K</span>
-                            <span class="track-len">3:56</span>
-                            <button class="track-btn-play">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                            </button>
+                    <div class="track-row">
+                        <span class="track-rank">03</span>
+                        <div class="track-thumb" style="background: linear-gradient(135deg, #c026d3, #4a044e);"></div>
+                        <div class="track-main">
+                            <h4>Nkechi (feat. Samira)</h4>
+                            <p>Chinemerem</p>
                         </div>
+                        <span class="track-tag">R&amp;B</span>
+                        <span class="track-len">3:48</span>
+                        <button class="track-btn-play">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
 
-                        <div class="track-row">
-                            <span class="track-rank">05</span>
-                            <div class="track-thumb" style="background: linear-gradient(135deg, #dc2626, #450a0a);"></div>
-                            <div class="track-main">
-                                <h4>Odogwu</h4>
-                                <p>Chinemerem</p>
-                            </div>
-                            <span class="track-tag">Afrobeats</span>
-                            <span class="track-plays-num">33K</span>
-                            <span class="track-len">4:20</span>
-                            <button class="track-btn-play">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                            </button>
+                    <div class="track-row">
+                        <span class="track-rank">04</span>
+                        <div class="track-thumb" style="background: linear-gradient(135deg, #059669, #064e3b);"></div>
+                        <div class="track-main">
+                            <h4>Enugu to Lagos</h4>
+                            <p>Chinemerem</p>
                         </div>
+                        <span class="track-tag">Afrobeats</span>
+                        <span class="track-len">3:56</span>
+                        <button class="track-btn-play">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="track-row">
+                        <span class="track-rank">05</span>
+                        <div class="track-thumb" style="background: linear-gradient(135deg, #dc2626, #450a0a);"></div>
+                        <div class="track-main">
+                            <h4>Odogwu</h4>
+                            <p>Chinemerem</p>
+                        </div>
+                        <span class="track-tag">Afrobeats</span>
+                        <span class="track-len">4:20</span>
+                        <button class="track-btn-play">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
                     </div>
                 </div>
 
-                <aside class="profile-side-col">
-                    <div class="profile-side-block">
-                        <h3 class="profile-side-h">About</h3>
-                        <p class="profile-bio-text">Born and raised in Enugu, Chinemerem blends traditional Igbo melodies with modern Afrobeats production. His debut EP "Adanna" is a love letter to Eastern Nigeria and the sound of a new generation finding its voice.</p>
-                    </div>
-
-                    <div class="profile-side-block">
-                        <h3 class="profile-side-h">Connect</h3>
-                        <div class="profile-social-list">
-                            <a href="#" class="profile-social-item">
-                                <span>Instagram</span>
-                                <span class="profile-social-handle">@chinemerem.wav</span>
-                            </a>
-                            <a href="#" class="profile-social-item">
-                                <span>Twitter</span>
-                                <span class="profile-social-handle">@cheme_music</span>
-                            </a>
-                            <a href="#" class="profile-social-item">
-                                <span>YouTube</span>
-                                <span class="profile-social-handle">Chinemerem Official</span>
-                            </a>
-                            <a href="#" class="profile-social-item">
-                                <span>Booking</span>
-                                <span class="profile-social-handle">book@spotlight.ng</span>
-                            </a>
+                <!-- STORIES ABOUT ARTIST -->
+                <h2 class="profile-section-h" style="margin-top: 50px;">Stories About Chinemerem</h2>
+                <div class="stories-grid" style="grid-template-columns: 1fr 1fr;">
+                    <a href="article.html" class="story-card">
+                        <div class="story-card-image" style="background: linear-gradient(180deg, #6a1b9a 0%, #2a0845 100%);">
+                            <span class="story-card-tag">Spotlight</span>
                         </div>
-                    </div>
-
-                    <div class="profile-side-block industry-block">
-                        <span class="page-eyebrow" style="color: var(--brand);">FOR LABELS &amp; A&amp;R</span>
-                        <h3 class="profile-side-h" style="margin-top: 8px;">Interested in signing?</h3>
-                        <p class="profile-bio-text">Reach out directly through the platform. Verified label accounts get priority response.</p>
-                        <button class="btn btn-primary" style="width: 100%; margin-top: 14px;">Send Business Inquiry</button>
-                    </div>
-                </aside>
+                        <div class="story-card-content">
+                            <h3 class="story-card-title">The Voice From Enugu You Need To Hear</h3>
+                            <p class="story-card-excerpt">In a small studio in Enugu, 22-year-old Chinemerem is quietly making soulful Afrobeats.</p>
+                            <div class="story-card-meta">
+                                <span>6 min read</span>
+                                <span class="dot-sep"></span>
+                                <span>3 days ago</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
+
+            <!-- SIDEBAR -->
+            <aside>
+                <div class="profile-side-block">
+                    <h3 class="profile-side-h">About</h3>
+                    <p class="profile-bio-text">Born and raised in Enugu, Chinemerem blends traditional Igbo melodies with modern Afrobeats production. His debut EP "Adanna" is a love letter to Eastern Nigeria and the sound of a new generation finding its voice.</p>
+                </div>
+
+                <div class="profile-side-block">
+                    <h3 class="profile-side-h">Connect</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <a href="#" style="color: var(--text-2); font-size: 0.88rem; padding: 8px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between;">
+                            <span>Instagram</span>
+                            <span style="color: var(--text-3);">@chinemerem.wav</span>
+                        </a>
+                        <a href="#" style="color: var(--text-2); font-size: 0.88rem; padding: 8px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between;">
+                            <span>Twitter</span>
+                            <span style="color: var(--text-3);">@cheme_music</span>
+                        </a>
+                        <a href="#" style="color: var(--text-2); font-size: 0.88rem; padding: 8px 0; display: flex; justify-content: space-between;">
+                            <span>YouTube</span>
+                            <span style="color: var(--text-3);">Chinemerem</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="profile-side-block" style="background: linear-gradient(135deg, rgba(233, 69, 96, 0.08), rgba(192, 38, 211, 0.05)); border-color: rgba(233, 69, 96, 0.2);">
+                    <span class="page-eyebrow" style="color: var(--brand);">FOR LABELS &amp; A&amp;R</span>
+                    <h3 class="profile-side-h" style="margin-top: 8px;">Want to sign this artist?</h3>
+                    <p class="profile-bio-text">Reach out directly. Verified label accounts get priority.</p>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 14px;">Contact Artist</button>
+                </div>
+            </aside>
         </div>
     </section>
 
-    <footer class="footer">
+    <footer class="footer" style="margin-top: 60px;">
         <div class="container">
             <div class="footer-top">
                 <div class="footer-brand">
@@ -204,59 +196,71 @@
                         <span class="logo-mark"></span>
                         <span class="logo-text">SpotLight<span class="logo-accent">.</span></span>
                     </a>
-                    <p>Built in Lagos. Made for Africa. Heard everywhere.</p>
+                    <p>The voice of new Naija music.</p>
                     <div class="footer-social">
                         <a href="#">IG</a><a href="#">X</a><a href="#">TT</a><a href="#">YT</a>
                     </div>
                 </div>
                 <div class="footer-col">
-                    <h5>Platform</h5>
+                    <h5>Read</h5>
+                    <ul><li><a href="stories.html">All Stories</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Listen</h5>
                     <ul>
-                        <li><a href="discover.html">Discover</a></li>
                         <li><a href="artists.html">Artists</a></li>
-                        <li><a href="instrumentals.html">Beats</a></li>
-                        <li><a href="upload.html">Upload</a></li>
+                        <li><a href="listen.html">Music</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h5>Company</h5>
-                    <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Careers</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h5>Support</h5>
-                    <ul>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Terms</a></li>
-                        <li><a href="#">Privacy</a></li>
-                    </ul>
+                    <h5>About</h5>
+                    <ul><li><a href="#">Contact</a></li></ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2024 SpotLight Music. Naija to the world.</p>
+                <p>© 2024 SpotLight. Naija to the world.</p>
             </div>
         </div>
     </footer>
 
+    <!-- MEDIA PLAYER -->
     <div class="mini-player-bar" id="miniPlayer">
         <div class="mp-left">
             <div class="mp-art" id="mpArt"></div>
             <div class="mp-info">
-                <span class="mp-title" id="mpTitle">Adanna Rising</span>
-                <span class="mp-artist" id="mpArtist">Chinemerem</span>
+                <span class="mp-title" id="mpTitle">Select a track</span>
+                <span class="mp-artist" id="mpArtist">—</span>
             </div>
         </div>
         <div class="mp-center">
-            <button class="mp-btn" onclick="prevTrack()"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
-            <button class="mp-btn mp-play" id="mpPlayBtn" onclick="togglePlayer()"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-            <button class="mp-btn" onclick="nextTrack()"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+            <button class="mp-btn" id="shuffleBtn" onclick="toggleShuffle()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+            </button>
+            <button class="mp-btn" onclick="prevTrack()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+            </button>
+            <button class="mp-btn mp-play" id="mpPlayBtn" onclick="togglePlayer()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <button class="mp-btn" onclick="nextTrack()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            </button>
+            <button class="mp-btn" id="repeatBtn" onclick="toggleRepeat()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            </button>
         </div>
         <div class="mp-right">
-            <div class="mp-progress"><div class="mp-progress-fill" id="mpProgress"></div></div>
-            <span class="mp-time" id="mpTime">0:00 / 3:24</span>
+            <div class="mp-progress" id="mpProgressWrap">
+                <div class="mp-progress-fill" id="mpProgress"></div>
+            </div>
+            <span class="mp-time" id="mpTime">0:00 / 0:00</span>
+            <div class="mp-volume">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+                <input type="range" class="mp-volume-slider" min="0" max="1" step="0.05" value="0.8" oninput="setPlayerVolume(this.value)">
+            </div>
         </div>
     </div>
 
