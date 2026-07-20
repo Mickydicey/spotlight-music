@@ -56,85 +56,8 @@
 
     <section class="section" style="padding-top: 40px;">
         <div class="container">
-            <div class="listen-grid">
-
-                <div class="listen-card">
-                    <div class="listen-card-art" style="background: linear-gradient(135deg, #6a1b9a, #2a0845);">
-                        <span class="listen-card-genre">Afrobeats</span>
-                        <button class="listen-card-play">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        </button>
-                    </div>
-                    <div class="listen-card-info">
-                        <h3>Adanna Rising</h3>
-                        <p class="listen-card-artist">Chinemerem</p>
-                    </div>
-                </div>
-
-                <div class="listen-card">
-                    <div class="listen-card-art" style="background: linear-gradient(135deg, #c026d3, #4a044e);">
-                        <span class="listen-card-genre">R&amp;B</span>
-                        <button class="listen-card-play">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        </button>
-                    </div>
-                    <div class="listen-card-info">
-                        <h3>Voice (EP)</h3>
-                        <p class="listen-card-artist">Samira Bello</p>
-                    </div>
-                </div>
-
-                <div class="listen-card">
-                    <div class="listen-card-art" style="background: linear-gradient(135deg, #dc2626, #450a0a);">
-                        <span class="listen-card-genre">Hip-Hop</span>
-                        <button class="listen-card-play">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        </button>
-                    </div>
-                    <div class="listen-card-info">
-                        <h3>Rise 2 The Top</h3>
-                        <p class="listen-card-artist">Kelechi Alex</p>
-                    </div>
-                </div>
-
-                <div class="listen-card">
-                    <div class="listen-card-art" style="background: linear-gradient(135deg, #059669, #064e3b);">
-                        <span class="listen-card-genre">Amapiano</span>
-                        <button class="listen-card-play">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        </button>
-                    </div>
-                    <div class="listen-card-info">
-                        <h3>Lagos Nights</h3>
-                        <p class="listen-card-artist">Tobi Wave</p>
-                    </div>
-                </div>
-
-                <div class="listen-card">
-                    <div class="listen-card-art" style="background: linear-gradient(135deg, #ea580c, #7c2d12);">
-                        <span class="listen-card-genre">Alté</span>
-                        <button class="listen-card-play">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        </button>
-                    </div>
-                    <div class="listen-card-info">
-                        <h3>Silk &amp; Fire</h3>
-                        <p class="listen-card-artist">Ada Grace</p>
-                    </div>
-                </div>
-
-                <div class="listen-card">
-                    <div class="listen-card-art" style="background: linear-gradient(135deg, #0891b2, #164e63);">
-                        <span class="listen-card-genre">Highlife</span>
-                        <button class="listen-card-play">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        </button>
-                    </div>
-                    <div class="listen-card-info">
-                        <h3>Owerri Sound</h3>
-                        <p class="listen-card-artist">DJ Kream</p>
-                    </div>
-                </div>
+            <div class="listen-grid" id="listenGrid">
+                <p style="color: var(--text-3); grid-column: 1/-1; text-align: center; padding: 40px;">Loading music from database...</p>
             </div>
         </div>
     </section>
@@ -215,6 +138,10 @@
         </div>
     </div>
 
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase.js"></script>
     <script src="../js/app.js"></script>
+    <script src="../js/pages.js"></script>
 </body>
 </html>

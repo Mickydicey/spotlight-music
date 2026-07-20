@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <!-- NAVBAR (same on every page) -->
+    <!-- NAVBAR -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
@@ -54,24 +54,15 @@
                 <a href="pages/stories.html" class="view-all-link">All Stories →</a>
             </div>
 
-            <a href="pages/article.html" class="featured-story">
+            <a href="pages/article.html" class="featured-story" id="homeFeaturedStory">
                 <div class="featured-story-image" style="background: linear-gradient(135deg, #6a1b9a 0%, #2a0845 100%);">
                     <span class="featured-badge">FEATURED SPOTLIGHT</span>
-                    <div class="featured-artist-name">CHINEMEREM</div>
+                    <div class="featured-artist-name">LOADING...</div>
                 </div>
                 <div class="featured-story-content">
-                    <span class="story-category">Artist Spotlight</span>
-                    <h2 class="featured-story-title">The Voice From Enugu You Need To Hear Right Now</h2>
-                    <p class="featured-story-excerpt">In a small studio in Enugu, 22-year-old Chinemerem is quietly making some of the most soulful Afrobeats you've never heard. His debut EP is a love letter to Eastern Nigeria and a manifesto for a new generation finding its voice.</p>
-                    <div class="featured-story-meta">
-                        <div class="story-author">
-                            <div class="story-author-avatar">S</div>
-                            <div>
-                                <span class="story-author-name">SpotLight Editorial</span>
-                                <span class="story-date">3 days ago · 6 min read</span>
-                            </div>
-                        </div>
-                    </div>
+                    <span class="story-category">Loading...</span>
+                    <h2 class="featured-story-title">Loading featured story...</h2>
+                    <p class="featured-story-excerpt">Please wait while we load the latest spotlight.</p>
                 </div>
             </a>
         </div>
@@ -85,51 +76,8 @@
                 <a href="pages/stories.html" class="view-all-link">All Stories →</a>
             </div>
 
-            <div class="stories-grid">
-                <a href="pages/article.html" class="story-card">
-                    <div class="story-card-image" style="background: linear-gradient(180deg, #c026d3 0%, #4a044e 100%);">
-                        <span class="story-card-tag">Interview</span>
-                    </div>
-                    <div class="story-card-content">
-                        <h3 class="story-card-title">Inside Samira Bello's Bedroom Studio Revolution</h3>
-                        <p class="story-card-excerpt">The 24-year-old Lagos artist is proving you don't need a label to make music that moves people.</p>
-                        <div class="story-card-meta">
-                            <span>5 min read</span>
-                            <span class="dot-sep"></span>
-                            <span>2 days ago</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="pages/article.html" class="story-card">
-                    <div class="story-card-image" style="background: linear-gradient(180deg, #059669 0%, #064e3b 100%);">
-                        <span class="story-card-tag">Culture</span>
-                    </div>
-                    <div class="story-card-content">
-                        <h3 class="story-card-title">Why Amapiano Is Quietly Taking Over Lagos Nightlife</h3>
-                        <p class="story-card-excerpt">South Africa gave us the sound. Nigerian producers are making it their own — and the world is watching.</p>
-                        <div class="story-card-meta">
-                            <span>8 min read</span>
-                            <span class="dot-sep"></span>
-                            <span>4 days ago</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="pages/article.html" class="story-card">
-                    <div class="story-card-image" style="background: linear-gradient(180deg, #dc2626 0%, #450a0a 100%);">
-                        <span class="story-card-tag">Spotlight</span>
-                    </div>
-                    <div class="story-card-content">
-                        <h3 class="story-card-title">Kelechi Alex: The PH MC Rewriting Naija Rap</h3>
-                        <p class="story-card-excerpt">While everyone chases Afrobeats, this South-South rapper is proving pure hip-hop still has a home in Nigeria.</p>
-                        <div class="story-card-meta">
-                            <span>7 min read</span>
-                            <span class="dot-sep"></span>
-                            <span>1 week ago</span>
-                        </div>
-                    </div>
-                </a>
+            <div class="stories-grid" id="homeLatestStories">
+                <p style="color: var(--text-3); grid-column: 1/-1; text-align: center; padding: 40px;">Loading stories...</p>
             </div>
         </div>
     </section>
@@ -142,43 +90,8 @@
                 <a href="pages/artists.html" class="view-all-link">All Artists →</a>
             </div>
 
-            <div class="spotlight-artists">
-                <a href="pages/artist-profile.html" class="spotlight-artist">
-                    <div class="spotlight-artist-img" style="background: linear-gradient(135deg, #6a1b9a, #2a0845);">
-                        <span>C</span>
-                    </div>
-                    <div class="spotlight-artist-info">
-                        <h3>Chinemerem</h3>
-                        <p>Afrobeats · Enugu</p>
-                    </div>
-                </a>
-                <a href="pages/artist-profile.html" class="spotlight-artist">
-                    <div class="spotlight-artist-img" style="background: linear-gradient(135deg, #c026d3, #4a044e);">
-                        <span>S</span>
-                    </div>
-                    <div class="spotlight-artist-info">
-                        <h3>Samira Bello</h3>
-                        <p>R&amp;B · Lagos</p>
-                    </div>
-                </a>
-                <a href="pages/artist-profile.html" class="spotlight-artist">
-                    <div class="spotlight-artist-img" style="background: linear-gradient(135deg, #dc2626, #450a0a);">
-                        <span>K</span>
-                    </div>
-                    <div class="spotlight-artist-info">
-                        <h3>Kelechi Alex</h3>
-                        <p>Hip-Hop · Port Harcourt</p>
-                    </div>
-                </a>
-                <a href="pages/artist-profile.html" class="spotlight-artist">
-                    <div class="spotlight-artist-img" style="background: linear-gradient(135deg, #059669, #064e3b);">
-                        <span>T</span>
-                    </div>
-                    <div class="spotlight-artist-info">
-                        <h3>Tobi Wave</h3>
-                        <p>Amapiano · Ibadan</p>
-                    </div>
-                </a>
+            <div class="spotlight-artists" id="homeSpotlightArtists">
+                <p style="color: var(--text-3); grid-column: 1/-1; text-align: center; padding: 40px;">Loading artists...</p>
             </div>
         </div>
     </section>
@@ -203,7 +116,7 @@
                     <h2>The best new Naija music,<br>straight to your inbox.</h2>
                     <p>Weekly stories. Fresh discoveries. No fluff. Just the artists we think you should know.</p>
                 </div>
-                <form class="newsletter-form-inline" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Subscribed';">
+                <form class="newsletter-form-inline">
                     <input type="email" placeholder="your@email.com" required>
                     <button type="submit">Subscribe</button>
                 </form>
@@ -254,7 +167,7 @@
         </div>
     </footer>
 
-    <!-- MEDIA PLAYER (bottom of every page) -->
+    <!-- MEDIA PLAYER -->
     <div class="mini-player-bar" id="miniPlayer">
         <div class="mp-left">
             <div class="mp-art" id="mpArt"></div>
@@ -295,6 +208,10 @@
         </div>
     </div>
 
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/pages.js"></script>
 </body>
 </html>

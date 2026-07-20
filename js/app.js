@@ -16,59 +16,10 @@ if (hamburger) {
 }
 
 // ===================================
-// MEDIA PLAYER
+// MEDIA PLAYER - CONNECTED TO DATABASE
 // ===================================
 
-const TRACKS = [
-    {
-        id: 1,
-        title: 'Adanna Rising',
-        artist: 'Chinemerem',
-        genre: 'Afrobeats',
-        art: 'linear-gradient(135deg, #6a1b9a, #2a0845)',
-        src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
-    },
-    {
-        id: 2,
-        title: 'Voice (EP)',
-        artist: 'Samira Bello',
-        genre: 'R&B',
-        art: 'linear-gradient(135deg, #c026d3, #4a044e)',
-        src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
-    },
-    {
-        id: 3,
-        title: 'Rise 2 The Top',
-        artist: 'Kelechi Alex',
-        genre: 'Hip-Hop',
-        art: 'linear-gradient(135deg, #dc2626, #450a0a)',
-        src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
-    },
-    {
-        id: 4,
-        title: 'Lagos Nights',
-        artist: 'Tobi Wave',
-        genre: 'Amapiano',
-        art: 'linear-gradient(135deg, #059669, #064e3b)',
-        src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'
-    },
-    {
-        id: 5,
-        title: 'Silk & Fire',
-        artist: 'Ada Grace',
-        genre: 'Alté',
-        art: 'linear-gradient(135deg, #ea580c, #7c2d12)',
-        src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'
-    },
-    {
-        id: 6,
-        title: 'Owerri Sound',
-        artist: 'DJ Kream',
-        genre: 'Highlife',
-        art: 'linear-gradient(135deg, #0891b2, #164e63)',
-        src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'
-    }
-];
+let TRACKS = []; // Starts empty, loaded from database
 
 const audio = new Audio();
 audio.preload = 'metadata';
@@ -89,6 +40,30 @@ const mpArtist = document.getElementById('mpArtist');
 const mpArt = document.getElementById('mpArt');
 const mpTime = document.getElementById('mpTime');
 
+// LOAD TRACKS FROM DATABASE
+async function loadTracksFromDB() {
+    if (typeof getAllTracks !== 'function') {
+        console.log('Supabase not loaded yet, using fallback');
+        return;
+    }
+
+    const dbTracks = await getAllTracks();
+    if (dbTracks && dbTracks.length > 0) {
+        // Transform database format to player format
+        TRACKS = dbTracks.map(track => ({
+            id: track.id,
+            title: track.title,
+            artist: track.artists ? track.artists.name : 'Unknown Artist',
+            genre: track.genre,
+            art: track.color_gradient,
+            src: track.audio_url,
+            duration: track.duration
+        }));
+        console.log(`✅ Loaded ${TRACKS.length} tracks from database`);
+    }
+}
+
+// Audio event listeners
 audio.addEventListener('loadstart', () => {
     isLoading = true;
     setPlayButtonLoading(true);
@@ -137,6 +112,10 @@ if (mpProgressWrap) {
 
 function loadAndPlay(index) {
     if (isLoading) return;
+    if (!TRACKS || TRACKS.length === 0) {
+        console.warn('No tracks loaded yet');
+        return;
+    }
 
     if (index === currentIndex && isPlaying) {
         audio.pause();
@@ -175,7 +154,7 @@ function loadAndPlay(index) {
 }
 
 function togglePlayer() {
-    if (isLoading) return;
+    if (isLoading || TRACKS.length === 0) return;
     if (currentIndex === -1) {
         loadAndPlay(0);
         return;
@@ -185,7 +164,7 @@ function togglePlayer() {
 }
 
 function nextTrack() {
-    if (isLoading) return;
+    if (isLoading || TRACKS.length === 0) return;
     let next;
     if (isShuffle) {
         do {
@@ -198,7 +177,7 @@ function nextTrack() {
 }
 
 function prevTrack() {
-    if (isLoading) return;
+    if (isLoading || TRACKS.length === 0) return;
     if (audio.currentTime > 3) {
         audio.currentTime = 0;
         return;
@@ -260,25 +239,20 @@ function formatTime(seconds) {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
-// Attach play buttons
+// Attach play buttons (after tracks load)
 function initPlayButtons() {
     const allPlayButtons = document.querySelectorAll(
         '.embed-play-btn, .listen-card-play, .track-btn-play'
     );
-    allPlayButtons.forEach((btn, i) => {
+    allPlayButtons.forEach((btn) => {
+        // Get track index from data attribute or default to sequential
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            const trackIndex = i % TRACKS.length;
+            const trackIndex = parseInt(btn.dataset.trackIndex || '0');
             loadAndPlay(trackIndex);
         });
     });
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPlayButtons);
-} else {
-    initPlayButtons();
 }
 
 // Keyboard
@@ -298,6 +272,39 @@ document.querySelectorAll('.story-cat-row').forEach(row => {
             e.target.classList.add('active');
         }
     });
+});
+
+// ===== NEWSLETTER SIGNUP =====
+document.querySelectorAll('.newsletter-form-inline').forEach(form => {
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = form.querySelector('input[type="email"]');
+        const button = form.querySelector('button');
+        const email = input.value.trim();
+
+        if (!email) return;
+
+        button.textContent = '...';
+        
+        if (typeof subscribeToNewsletter === 'function') {
+            const result = await subscribeToNewsletter(email);
+            button.textContent = result.message;
+            if (result.success) {
+                input.value = '';
+                setTimeout(() => { button.textContent = 'Subscribe'; }, 3000);
+            }
+        } else {
+            button.textContent = '✓ Subscribed';
+        }
+    });
+});
+
+// Initialize everything when page loads
+window.addEventListener('DOMContentLoaded', async () => {
+    // Load tracks from database first
+    await loadTracksFromDB();
+    // Then initialize play buttons
+    initPlayButtons();
 });
 
 console.log('%c🎧 SpotLight — The Voice of New Naija Music', 'color:#e94560;font-weight:bold;font-size:14px');
