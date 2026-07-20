@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Article — Admin</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Rich Text Editor -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet">
+</head>
+<body class="admin-body">
+
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-logo">
+            <span class="logo-mark"></span>
+            <span class="logo-text">SpotLight<span class="logo-accent">.</span></span>
+            <span class="admin-badge">ADMIN</span>
+        </div>
+        <nav class="admin-nav">
+            <a href="index.html" class="admin-nav-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </a>
+            <a href="articles.html" class="admin-nav-link active">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Articles
+            </a>
+            <a href="artists.html" class="admin-nav-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Artists
+            </a>
+            <a href="tracks.html" class="admin-nav-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                Tracks
+            </a>
+        </nav>
+        <div class="admin-sidebar-footer">
+            <div class="admin-user-info">
+                <div class="admin-user-avatar">A</div>
+                <div>
+                    <span class="admin-user-name">Admin</span>
+                    <span class="admin-user-email" id="adminEmail">Loading...</span>
+                </div>
+            </div>
+            <button class="admin-logout-btn" onclick="logout()">Log Out</button>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <div>
+                <a href="articles.html" class="admin-back">← Back to Articles</a>
+                <h1 class="admin-page-title">Write New Article</h1>
+                <p class="admin-page-sub">Publish a story that matters</p>
+            </div>
+        </header>
+
+        <form id="articleForm" class="admin-form-large">
+
+            <div class="admin-form-row">
+                <div class="admin-form-group admin-form-group-large">
+                    <label>Article Title *</label>
+                    <input type="text" id="articleTitle" required placeholder="e.g. The Voice From Enugu You Need To Hear">
+                </div>
+            </div>
+
+            <div class="admin-form-row">
+                <div class="admin-form-group">
+                    <label>URL Slug * <span class="admin-label-hint">(no spaces, use dashes)</span></label>
+                    <input type="text" id="articleSlug" required placeholder="e.g. voice-from-enugu">
+                </div>
+                <div class="admin-form-group">
+                    <label>Category *</label>
+                    <select id="articleCategory" required>
+                        <option value="">Choose category</option>
+                        <option value="Artist Spotlight">Artist Spotlight</option>
+                        <option value="Interview">Interview</option>
+                        <option value="Review">Review</option>
+                        <option value="Industry Talk">Industry Talk</option>
+                        <option value="Culture">Culture</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="admin-form-group">
+                <label>Subtitle</label>
+                <input type="text" id="articleSubtitle" placeholder="A short tagline for the article">
+            </div>
+
+            <div class="admin-form-group">
+                <label>Excerpt <span class="admin-label-hint">(shown on cards, 1-2 sentences)</span></label>
+                <textarea id="articleExcerpt" rows="3" placeholder="Brief preview of the article..."></textarea>
+            </div>
+
+            <div class="admin-form-group">
+                <label>Featured Artist</label>
+                <select id="articleArtist">
+                    <option value="">No featured artist</option>
+                </select>
+            </div>
+
+            <div class="admin-form-group">
+                <label>Cover Gradient</label>
+                <div class="admin-color-picker">
+                    <button type="button" class="admin-color-swatch active" data-color="linear-gradient(135deg, #6a1b9a, #2a0845)" style="background: linear-gradient(135deg, #6a1b9a, #2a0845);"></button>
+                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #c026d3, #4a044e)" style="background: linear-gradient(135deg, #c026d3, #4a044e);"></button>
+                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #dc2626, #450a0a)" style="background: linear-gradient(135deg, #dc2626, #450a0a);"></button>
+                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #059669, #064e3b)" style="background: linear-gradient(135deg, #059669, #064e3b);"></button>
+                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #ea580c, #7c2d12)" style="background: linear-gradient(135deg, #ea580c, #7c2d12);"></button>
+                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #0891b2, #164e63)" style="background: linear-gradient(135deg, #0891b2, #164e63);"></button>
+                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #db2777, #831843)" style="background: linear-gradient(135deg, #db2777, #831843);"></button>
+                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #7c3aed, #1e1b4b)" style="background: linear-gradient(135deg, #7c3aed, #1e1b4b);"></button>
+                </div>
+            </div>
+
+            <div class="admin-form-group">
+                <label>Article Content *</label>
+                <div class="admin-editor-tabs">
+                    <button type="button" class="admin-tab active" data-tab="rich">Rich Editor</button>
+                    <button type="button" class="admin-tab" data-tab="markdown">Markdown</button>
+                </div>
+                <div id="richEditorPanel">
+                    <div id="richEditor" style="height: 400px;"></div>
+                </div>
+                <div id="markdownPanel" style="display:none;">
+                    <textarea id="markdownEditor" rows="20" placeholder="# Heading&#10;&#10;Write your article in Markdown...&#10;&#10;## Subheading&#10;&#10;**Bold text** or *italic text*"></textarea>
+                    <p class="admin-label-hint" style="margin-top: 8px;">Supports Markdown: # Headings, **bold**, *italic*, [links](url)</p>
+                </div>
+            </div>
+
+            <div class="admin-form-row">
+                <div class="admin-form-group">
+                    <label>Read Time (minutes)</label>
+                    <input type="number" id="articleReadTime" value="5" min="1" max="60">
+                </div>
+                <div class="admin-form-group">
+                    <label>Tag</label>
+                    <input type="text" id="articleTag" placeholder="e.g. Spotlight, Culture">
+                </div>
+            </div>
+
+            <div class="admin-form-group">
+                <label class="admin-checkbox-label">
+                    <input type="checkbox" id="articleFeatured">
+                    <span>Feature this article on homepage (uncheck if just regular story)</span>
+                </label>
+            </div>
+
+            <div class="admin-form-actions">
+                <button type="button" class="admin-btn admin-btn-ghost" onclick="window.location.href='articles.html'">Cancel</button>
+                <button type="submit" class="admin-btn admin-btn-primary" id="publishBtn">Publish Article</button>
+            </div>
+
+            <div id="articleMessage" class="admin-message" style="display:none;"></div>
+        </form>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artists — Admin</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-logo">
+            <span class="logo-mark"></span>
+            <span class="logo-text">SpotLight<span class="logo-accent">.</span></span>
+            <span class="admin-badge">ADMIN</span>
+        </div>
+        <nav class="admin-nav">
+            <a href="index.html" class="admin-nav-link">Dashboard</a>
+            <a href="articles.html" class="admin-nav-link">Articles</a>
+            <a href="artists.html" class="admin-nav-link active">Artists</a>
+            <a href="tracks.html" class="admin-nav-link">Tracks</a>
+        </nav>
+        <div class="admin-sidebar-footer">
+            <div class="admin-user-info">
+                <div class="admin-user-avatar">A</div>
+                <div>
+                    <span class="admin-user-name">Admin</span>
+                    <span class="admin-user-email" id="adminEmail">Loading...</span>
+                </div>
+            </div>
+            <button class="admin-logout-btn" onclick="logout()">Log Out</button>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <div>
+                <h1 class="admin-page-title">Artists</h1>
+                <p class="admin-page-sub">Manage your spotlighted artists</p>
+            </div>
+            <div class="admin-header-actions">
+                <button class="admin-btn admin-btn-primary" onclick="openArtistModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                    Add Artist
+                </button>
+            </div>
+        </header>
+
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Artist</th>
+                        <th>Genre</th>
+                        <th>City</th>
+                        <th>Verified</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="artistsTable">
+                    <tr><td colspan="5" style="text-align:center; padding: 40px; color: var(--text-3);">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Artist Modal -->
+    <div class="admin-modal" id="artistModal" style="display:none;">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2 id="artistModalTitle">Add New Artist</h2>
+                <button class="admin-modal-close" onclick="closeArtistModal()">&times;</button>
+            </div>
+            <form id="artistForm" class="admin-form-large">
+                <input type="hidden" id="artistId">
+
+                <div class="admin-form-row">
+                    <div class="admin-form-group">
+                        <label>Artist Name *</label>
+                        <input type="text" id="artistName" required placeholder="e.g. Chinemerem">
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Initial (1 letter) *</label>
+                        <input type="text" id="artistInitial" required maxlength="1" placeholder="C">
+                    </div>
+                </div>
+
+                <div class="admin-form-row">
+                    <div class="admin-form-group">
+                        <label>URL Slug *</label>
+                        <input type="text" id="artistSlug" required placeholder="chinemerem">
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Genre *</label>
+                        <select id="artistGenre" required>
+                            <option value="">Choose genre</option>
+                            <option value="Afrobeats">Afrobeats</option>
+                            <option value="Amapiano">Amapiano</option>
+                            <option value="Alté">Alté</option>
+                            <option value="Hip-Hop">Hip-Hop</option>
+                            <option value="R&B">R&B</option>
+                            <option value="Highlife">Highlife</option>
+                            <option value="Gospel">Gospel</option>
+                            <option value="Fuji">Fuji</option>
+                            <option value="Producer">Producer</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="admin-form-group">
+                    <label>City *</label>
+                    <input type="text" id="artistCity" required placeholder="e.g. Enugu, Nigeria">
+                </div>
+
+                <div class="admin-form-group">
+                    <label>Bio</label>
+                    <textarea id="artistBio" rows="5" placeholder="Tell their story..."></textarea>
+                </div>
+
+                <div class="admin-form-row">
+                    <div class="admin-form-group">
+                        <label>Instagram</label>
+                        <input type="text" id="artistInstagram" placeholder="@handle">
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Twitter</label>
+                        <input type="text" id="artistTwitter" placeholder="@handle">
+                    </div>
+                </div>
+
+                <div class="admin-form-group">
+                    <label>YouTube</label>
+                    <input type="text" id="artistYoutube" placeholder="Channel name or URL">
+                </div>
+
+                <div class="admin-form-group">
+                    <label>Color Gradient</label>
+                    <div class="admin-color-picker" id="artistColorPicker">
+                        <button type="button" class="admin-color-swatch active" data-color="linear-gradient(135deg, #6a1b9a, #2a0845)" style="background: linear-gradient(135deg, #6a1b9a, #2a0845);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #c026d3, #4a044e)" style="background: linear-gradient(135deg, #c026d3, #4a044e);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #dc2626, #450a0a)" style="background: linear-gradient(135deg, #dc2626, #450a0a);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #059669, #064e3b)" style="background: linear-gradient(135deg, #059669, #064e3b);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #ea580c, #7c2d12)" style="background: linear-gradient(135deg, #ea580c, #7c2d12);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #0891b2, #164e63)" style="background: linear-gradient(135deg, #0891b2, #164e63);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #db2777, #831843)" style="background: linear-gradient(135deg, #db2777, #831843);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #7c3aed, #1e1b4b)" style="background: linear-gradient(135deg, #7c3aed, #1e1b4b);"></button>
+                    </div>
+                </div>
+
+                <div class="admin-form-group">
+                    <label class="admin-checkbox-label">
+                        <input type="checkbox" id="artistVerified">
+                        <span>Mark as Verified Artist</span>
+                    </label>
+                </div>
+
+                <div class="admin-form-actions">
+                    <button type="button" class="admin-btn admin-btn-ghost" onclick="closeArtistModal()">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary" id="saveArtistBtn">Save Artist</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

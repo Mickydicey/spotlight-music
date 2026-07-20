@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login — SpotLight</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+
+    <div class="admin-login-container">
+        <div class="admin-login-card">
+            <div class="admin-login-logo">
+                <span class="logo-mark"></span>
+                <span class="logo-text">SpotLight<span class="logo-accent">.</span></span>
+            </div>
+            <h1 class="admin-login-title">Admin Access</h1>
+            <p class="admin-login-sub">Sign in to manage your platform</p>
+
+            <form id="loginForm" class="admin-form">
+                <div class="admin-form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required placeholder="you@email.com">
+                </div>
+                <div class="admin-form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Your password">
+                </div>
+                <button type="submit" class="admin-btn admin-btn-primary" id="loginBtn">
+                    Sign In
+                </button>
+                <div id="loginError" class="admin-error" style="display:none;"></div>
+            </form>
+
+            <a href="../index.html" class="admin-back-link">← Back to Site</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

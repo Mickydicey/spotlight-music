@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles — Admin</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar-logo">
+            <span class="logo-mark"></span>
+            <span class="logo-text">SpotLight<span class="logo-accent">.</span></span>
+            <span class="admin-badge">ADMIN</span>
+        </div>
+        <nav class="admin-nav">
+            <a href="index.html" class="admin-nav-link">Dashboard</a>
+            <a href="articles.html" class="admin-nav-link active">Articles</a>
+            <a href="artists.html" class="admin-nav-link">Artists</a>
+            <a href="tracks.html" class="admin-nav-link">Tracks</a>
+        </nav>
+        <div class="admin-sidebar-footer">
+            <div class="admin-user-info">
+                <div class="admin-user-avatar">A</div>
+                <div>
+                    <span class="admin-user-name">Admin</span>
+                    <span class="admin-user-email" id="adminEmail">Loading...</span>
+                </div>
+            </div>
+            <button class="admin-logout-btn" onclick="logout()">Log Out</button>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-header">
+            <div>
+                <h1 class="admin-page-title">Articles</h1>
+                <p class="admin-page-sub">Manage all your published stories</p>
+            </div>
+            <div class="admin-header-actions">
+                <a href="new-article.html" class="admin-btn admin-btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                    New Article
+                </a>
+            </div>
+        </header>
+
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Featured Artist</th>
+                        <th>Published</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="articlesTable">
+                    <tr><td colspan="5" style="text-align:center; padding: 40px; color: var(--text-3);">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>
