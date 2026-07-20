@@ -18,7 +18,6 @@ async function checkAuth() {
     const { data: { session } } = await db.auth.getSession();
 
     if (!session) {
-        // Not logged in — redirect to login
         if (!window.location.pathname.endsWith('login.html')) {
             window.location.href = 'login.html';
             return false;
@@ -26,7 +25,6 @@ async function checkAuth() {
         return false;
     }
 
-    // Check if user is admin
     const { data: adminCheck } = await db
         .from('admin_users')
         .select('*')
@@ -40,11 +38,9 @@ async function checkAuth() {
         return false;
     }
 
-    // Show email in sidebar
     const emailEl = document.getElementById('adminEmail');
     if (emailEl) emailEl.textContent = session.user.email;
 
-    // Update avatar with first letter of email
     const avatarEls = document.querySelectorAll('.admin-user-avatar');
     avatarEls.forEach(el => {
         el.textContent = session.user.email.charAt(0).toUpperCase();
@@ -87,7 +83,6 @@ if (document.getElementById('loginForm')) {
             return;
         }
 
-        // Check if user is admin
         const { data: adminCheck } = await db
             .from('admin_users')
             .select('*')
@@ -110,7 +105,6 @@ if (document.getElementById('loginForm')) {
 // ===== DASHBOARD =====
 
 async function loadDashboard() {
-    // Load stats
     const [articles, artists, tracks, subscribers] = await Promise.all([
         db.from('articles').select('id', { count: 'exact', head: true }),
         db.from('artists').select('id', { count: 'exact', head: true }),
@@ -123,7 +117,6 @@ async function loadDashboard() {
     document.getElementById('statTracks').textContent = tracks.count || 0;
     document.getElementById('statSubscribers').textContent = subscribers.count || 0;
 
-    // Load recent articles
     const { data: recentArticles } = await db
         .from('articles')
         .select(`*, artists:featured_artist_id (name)`)
@@ -192,7 +185,6 @@ let selectedGradient = 'linear-gradient(135deg, #6a1b9a, #2a0845)';
 let currentEditorMode = 'rich';
 
 async function initNewArticle() {
-    // Initialize Quill rich text editor
     if (document.getElementById('richEditor') && typeof Quill !== 'undefined') {
         quillEditor = new Quill('#richEditor', {
             theme: 'snow',
@@ -210,7 +202,6 @@ async function initNewArticle() {
         });
     }
 
-    // Load artists into dropdown
     const { data: artists } = await db
         .from('artists')
         .select('id, name')
@@ -226,7 +217,6 @@ async function initNewArticle() {
         });
     }
 
-    // Auto-generate slug from title
     document.getElementById('articleTitle').addEventListener('input', (e) => {
         const slug = e.target.value
             .toLowerCase()
@@ -237,7 +227,6 @@ async function initNewArticle() {
         document.getElementById('articleSlug').value = slug;
     });
 
-    // Color picker
     document.querySelectorAll('.admin-color-swatch').forEach(swatch => {
         swatch.addEventListener('click', () => {
             document.querySelectorAll('.admin-color-swatch').forEach(s => s.classList.remove('active'));
@@ -246,7 +235,6 @@ async function initNewArticle() {
         });
     });
 
-    // Editor tabs
     document.querySelectorAll('.admin-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
@@ -263,7 +251,6 @@ async function initNewArticle() {
         });
     });
 
-    // Form submit
     document.getElementById('articleForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -374,7 +361,6 @@ function openArtistModal(artist = null) {
         document.getElementById('artistVerified').checked = artist.is_verified;
         selectedArtistGradient = artist.color_gradient;
 
-        // Highlight the color
         document.querySelectorAll('#artistColorPicker .admin-color-swatch').forEach(s => {
             s.classList.toggle('active', s.dataset.color === artist.color_gradient);
         });
@@ -448,7 +434,165 @@ async function saveArtist(e) {
     loadArtistsPage();
 }
 
-// ===== TRACKS PAGE =====
+// ===================================
+// TRACK FILE UPLOAD (NEW!)
+// ===================================
+
+let uploadedFileUrl = null;
+let uploadedFileDuration = null;
+
+function initTrackFileUpload() {
+    const fileInput = document.getElementById('trackFile');
+    const dropZone = document.getElementById('fileDropZone');
+
+    if (!fileInput || !dropZone) return;
+
+    // Click to select
+    dropZone.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'BUTTON') {
+            fileInput.click();
+        }
+    });
+
+    // Drag and drop
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#e94560';
+        dropZone.style.background = 'rgba(233, 69, 96, 0.05)';
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.style.borderColor = '';
+        dropZone.style.background = '';
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '';
+        dropZone.style.background = '';
+        if (e.dataTransfer.files.length > 0) {
+            handleFileSelect(e.dataTransfer.files[0]);
+        }
+    });
+
+    // File selected
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleFileSelect(e.target.files[0]);
+        }
+    });
+
+    // Upload tabs
+    document.querySelectorAll('.upload-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.upload-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const tabName = tab.dataset.tab;
+            document.getElementById('filePanel').style.display = tabName === 'file' ? 'block' : 'none';
+            document.getElementById('urlPanel').style.display = tabName === 'url' ? 'block' : 'none';
+        });
+    });
+}
+
+async function handleFileSelect(file) {
+    // Validate file type
+    if (!file.type.startsWith('audio/')) {
+        alert('Please select an audio file (MP3, WAV, M4A)');
+        return;
+    }
+
+    // Validate size (50MB max)
+    const maxSize = 50 * 1024 * 1024;
+    if (file.size > maxSize) {
+        alert('File too large! Maximum size is 50MB.');
+        return;
+    }
+
+    // Detect duration
+    try {
+        const duration = await getAudioDuration(file);
+        uploadedFileDuration = duration;
+        document.getElementById('trackDuration').value = duration;
+    } catch (err) {
+        console.log('Could not detect duration');
+    }
+
+    // Show progress
+    document.getElementById('dropZoneContent').style.display = 'none';
+    document.getElementById('uploadProgress').style.display = 'block';
+    document.getElementById('uploadedFile').style.display = 'none';
+
+    // Generate unique filename
+    const timestamp = Date.now();
+    const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const fileName = `${timestamp}_${cleanName}`;
+
+    try {
+        // Upload to Supabase Storage
+        const { data, error } = await db.storage
+            .from('tracks')
+            .upload(fileName, file, {
+                cacheControl: '3600',
+                upsert: false
+            });
+
+        if (error) {
+            alert('Upload failed: ' + error.message);
+            resetFileUpload();
+            return;
+        }
+
+        // Get public URL
+        const { data: urlData } = db.storage
+            .from('tracks')
+            .getPublicUrl(fileName);
+
+        uploadedFileUrl = urlData.publicUrl;
+        document.getElementById('trackAudioUrlFromFile').value = uploadedFileUrl;
+
+        // Show success
+        document.getElementById('uploadProgress').style.display = 'none';
+        document.getElementById('uploadedFile').style.display = 'block';
+        document.getElementById('uploadedName').textContent = file.name;
+
+    } catch (err) {
+        alert('Upload error: ' + err.message);
+        resetFileUpload();
+    }
+}
+
+function getAudioDuration(file) {
+    return new Promise((resolve, reject) => {
+        const audio = new Audio();
+        audio.preload = 'metadata';
+        audio.onloadedmetadata = () => {
+            const totalSeconds = Math.floor(audio.duration);
+            const mins = Math.floor(totalSeconds / 60);
+            const secs = totalSeconds % 60;
+            resolve(`${mins}:${secs.toString().padStart(2, '0')}`);
+        };
+        audio.onerror = () => reject('Could not read duration');
+        audio.src = URL.createObjectURL(file);
+    });
+}
+
+function resetFileUpload() {
+    uploadedFileUrl = null;
+    const fileInput = document.getElementById('trackFile');
+    if (fileInput) fileInput.value = '';
+    const urlFromFile = document.getElementById('trackAudioUrlFromFile');
+    if (urlFromFile) urlFromFile.value = '';
+    const dropContent = document.getElementById('dropZoneContent');
+    if (dropContent) dropContent.style.display = 'block';
+    const progress = document.getElementById('uploadProgress');
+    if (progress) progress.style.display = 'none';
+    const uploaded = document.getElementById('uploadedFile');
+    if (uploaded) uploaded.style.display = 'none';
+}
+
+// ===================================
+// TRACKS PAGE
+// ===================================
 
 async function loadTracksPage() {
     const { data: tracks } = await db
@@ -482,14 +626,16 @@ async function loadTracksPage() {
     // Load artists into dropdown
     const { data: artists } = await db.from('artists').select('id, name').order('name');
     const select = document.getElementById('trackArtist');
-    select.innerHTML = '<option value="">Choose artist</option>';
-    if (artists) {
-        artists.forEach(a => {
-            const option = document.createElement('option');
-            option.value = a.id;
-            option.textContent = a.name;
-            select.appendChild(option);
-        });
+    if (select) {
+        select.innerHTML = '<option value="">Choose artist</option>';
+        if (artists) {
+            artists.forEach(a => {
+                const option = document.createElement('option');
+                option.value = a.id;
+                option.textContent = a.name;
+                select.appendChild(option);
+            });
+        }
     }
 }
 
@@ -497,6 +643,9 @@ let selectedTrackGradient = 'linear-gradient(135deg, #6a1b9a, #2a0845)';
 
 function openTrackModal(track = null) {
     document.getElementById('trackModal').style.display = 'flex';
+    resetFileUpload();
+    uploadedFileUrl = null;
+    
     if (track) {
         document.getElementById('trackModalTitle').textContent = 'Edit Track';
         document.getElementById('trackId').value = track.id;
@@ -507,6 +656,14 @@ function openTrackModal(track = null) {
         document.getElementById('trackDuration').value = track.duration;
         document.getElementById('trackFeatured').checked = track.is_featured;
         selectedTrackGradient = track.color_gradient;
+        
+        // Show URL tab by default when editing
+        document.querySelectorAll('.upload-tab').forEach(t => t.classList.remove('active'));
+        const urlTab = document.querySelector('.upload-tab[data-tab="url"]');
+        if (urlTab) urlTab.classList.add('active');
+        document.getElementById('filePanel').style.display = 'none';
+        document.getElementById('urlPanel').style.display = 'block';
+        
         document.querySelectorAll('#trackColorPicker .admin-color-swatch').forEach(s => {
             s.classList.toggle('active', s.dataset.color === track.color_gradient);
         });
@@ -515,6 +672,14 @@ function openTrackModal(track = null) {
         document.getElementById('trackForm').reset();
         document.getElementById('trackId').value = '';
         selectedTrackGradient = 'linear-gradient(135deg, #6a1b9a, #2a0845)';
+        
+        // Show file upload tab by default
+        document.querySelectorAll('.upload-tab').forEach(t => t.classList.remove('active'));
+        const fileTab = document.querySelector('.upload-tab[data-tab="file"]');
+        if (fileTab) fileTab.classList.add('active');
+        document.getElementById('filePanel').style.display = 'block';
+        document.getElementById('urlPanel').style.display = 'none';
+        
         document.querySelectorAll('#trackColorPicker .admin-color-swatch').forEach((s, i) => {
             s.classList.toggle('active', i === 0);
         });
@@ -546,11 +711,21 @@ async function saveTrack(e) {
     btn.disabled = true;
     btn.textContent = 'Saving...';
 
+    // Get audio URL from either upload or URL field
+    let audioUrl = uploadedFileUrl || document.getElementById('trackAudioUrl').value;
+
+    if (!audioUrl) {
+        alert('Please upload a file or enter an audio URL');
+        btn.disabled = false;
+        btn.textContent = 'Save Track';
+        return;
+    }
+
     const track = {
         title: document.getElementById('trackTitle').value,
         artist_id: parseInt(document.getElementById('trackArtist').value),
         genre: document.getElementById('trackGenre').value,
-        audio_url: document.getElementById('trackAudioUrl').value,
+        audio_url: audioUrl,
         duration: document.getElementById('trackDuration').value || '3:24',
         color_gradient: selectedTrackGradient,
         is_featured: document.getElementById('trackFeatured').checked
@@ -576,7 +751,9 @@ async function saveTrack(e) {
     loadTracksPage();
 }
 
-// ===== INITIALIZE PAGES =====
+// ===================================
+// INITIALIZE PAGES
+// ===================================
 
 window.addEventListener('DOMContentLoaded', async () => {
     const path = window.location.pathname;
@@ -599,7 +776,6 @@ window.addEventListener('DOMContentLoaded', async () => {
         initNewArticle();
     } else if (path.endsWith('/admin/artists.html')) {
         loadArtistsPage();
-        // Attach color picker for modal
         document.querySelectorAll('#artistColorPicker .admin-color-swatch').forEach(swatch => {
             swatch.addEventListener('click', () => {
                 document.querySelectorAll('#artistColorPicker .admin-color-swatch').forEach(s => s.classList.remove('active'));
@@ -610,6 +786,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('artistForm').addEventListener('submit', saveArtist);
     } else if (path.endsWith('tracks.html')) {
         loadTracksPage();
+        initTrackFileUpload();
         document.querySelectorAll('#trackColorPicker .admin-color-swatch').forEach(swatch => {
             swatch.addEventListener('click', () => {
                 document.querySelectorAll('#trackColorPicker .admin-color-swatch').forEach(s => s.classList.remove('active'));

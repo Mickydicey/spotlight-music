@@ -812,3 +812,137 @@
     .admin-table { font-size: 0.8rem; }
     .admin-table th, .admin-table td { padding: 12px 10px; }
 }
+/* ===================================
+   FILE UPLOAD STYLES
+=================================== */
+
+.upload-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 4px;
+    border-radius: 10px;
+    width: fit-content;
+}
+
+.upload-tab {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    color: #a1a1b0;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.upload-tab.active {
+    background: #e94560;
+    color: #fff;
+}
+
+.upload-panel {
+    width: 100%;
+}
+
+.file-drop-zone {
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    background: #1a1a2e;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-drop-zone:hover {
+    border-color: #e94560;
+    background: rgba(233, 69, 96, 0.03);
+}
+
+#dropZoneContent svg {
+    color: #6b6b7d;
+    margin: 0 auto 12px;
+    display: block;
+}
+
+#dropZoneContent .drop-title {
+    color: #ededf2;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+#dropZoneContent .drop-sub {
+    color: #6b6b7d;
+    font-size: 0.85rem;
+}
+
+#uploadProgress {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #e94560, #c026d3);
+    border-radius: 100px;
+    width: 30%;
+    transition: width 0.3s;
+    animation: progressPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes progressPulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+.progress-text {
+    color: #a1a1b0;
+    font-size: 0.9rem;
+}
+
+#uploadedFile {
+    width: 100%;
+}
+
+.uploaded-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 2px solid rgba(16, 185, 129, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    color: #10b981;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.uploaded-name {
+    color: #ededf2;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    word-break: break-all;
+    padding: 0 20px;
+}
