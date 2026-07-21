@@ -10,6 +10,16 @@
 </head>
 <body class="admin-body">
 
+    <button class="admin-mobile-menu-btn" onclick="toggleAdminSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+    </button>
+
+    <div class="admin-sidebar-overlay" id="adminSidebarOverlay" onclick="toggleAdminSidebar()"></div>
+
     <aside class="admin-sidebar">
         <div class="admin-sidebar-logo">
             <span class="logo-mark"></span>
@@ -66,124 +76,119 @@
         </div>
     </main>
 
-    <!-- Track Modal -->
-<div class="admin-modal" id="trackModal" style="display:none;">
-    <div class="admin-modal-content">
-        <div class="admin-modal-header">
-            <h2 id="trackModalTitle">Add New Track</h2>
-            <button class="admin-modal-close" onclick="closeTrackModal()">&times;</button>
-        </div>
-        <form id="trackForm" class="admin-form-large">
-            <input type="hidden" id="trackId">
-
-            <div class="admin-form-group">
-                <label>Track Title *</label>
-                <input type="text" id="trackTitle" required placeholder="e.g. Adanna Rising">
+    <div class="admin-modal" id="trackModal" style="display:none;">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2 id="trackModalTitle">Add New Track</h2>
+                <button class="admin-modal-close" onclick="closeTrackModal()">&times;</button>
             </div>
+            <form id="trackForm" class="admin-form-large">
+                <input type="hidden" id="trackId">
 
-            <div class="admin-form-row">
                 <div class="admin-form-group">
-                    <label>Artist *</label>
-                    <select id="trackArtist" required>
-                        <option value="">Choose artist</option>
-                    </select>
-                </div>
-                <div class="admin-form-group">
-                    <label>Genre *</label>
-                    <select id="trackGenre" required>
-                        <option value="">Choose genre</option>
-                        <option value="Afrobeats">Afrobeats</option>
-                        <option value="Amapiano">Amapiano</option>
-                        <option value="Alté">Alté</option>
-                        <option value="Hip-Hop">Hip-Hop</option>
-                        <option value="R&B">R&B</option>
-                        <option value="Highlife">Highlife</option>
-                        <option value="Gospel">Gospel</option>
-                        <option value="Fuji">Fuji</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- FILE UPLOAD SECTION -->
-            <div class="admin-form-group">
-                <label>Audio File *</label>
-                
-                <!-- Upload from device -->
-                <div class="upload-tabs">
-                    <button type="button" class="upload-tab active" data-tab="file">
-                        📁 Upload from device
-                    </button>
-                    <button type="button" class="upload-tab" data-tab="url">
-                        🔗 Use URL instead
-                    </button>
+                    <label>Track Title *</label>
+                    <input type="text" id="trackTitle" required placeholder="e.g. Adanna Rising">
                 </div>
 
-                <!-- File Upload Panel -->
-                <div id="filePanel" class="upload-panel">
-                    <div class="file-drop-zone" id="fileDropZone">
-                        <input type="file" id="trackFile" accept="audio/*" hidden>
-                        <div id="dropZoneContent">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="17 8 12 3 7 8"/>
-                                <line x1="12" y1="3" x2="12" y2="15"/>
-                            </svg>
-                            <p class="drop-title">Click to select or drag & drop</p>
-                            <p class="drop-sub">MP3, WAV, M4A up to 50MB</p>
-                        </div>
-                        <div id="uploadProgress" style="display:none;">
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progressFill"></div>
-                            </div>
-                            <p class="progress-text" id="progressText">Uploading... 0%</p>
-                        </div>
-                        <div id="uploadedFile" style="display:none;">
-                            <div class="uploaded-icon">✓</div>
-                            <p class="uploaded-name" id="uploadedName"></p>
-                            <button type="button" class="admin-btn admin-btn-ghost admin-btn-small" onclick="resetFileUpload()">Change File</button>
-                        </div>
+                <div class="admin-form-row">
+                    <div class="admin-form-group">
+                        <label>Artist *</label>
+                        <select id="trackArtist" required>
+                            <option value="">Choose artist</option>
+                        </select>
                     </div>
-                    <input type="hidden" id="trackAudioUrlFromFile">
+                    <div class="admin-form-group">
+                        <label>Genre *</label>
+                        <select id="trackGenre" required>
+                            <option value="">Choose genre</option>
+                            <option value="Afrobeats">Afrobeats</option>
+                            <option value="Amapiano">Amapiano</option>
+                            <option value="Alté">Alté</option>
+                            <option value="Hip-Hop">Hip-Hop</option>
+                            <option value="R&B">R&B</option>
+                            <option value="Highlife">Highlife</option>
+                            <option value="Gospel">Gospel</option>
+                            <option value="Fuji">Fuji</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- URL Panel -->
-                <div id="urlPanel" class="upload-panel" style="display:none;">
-                    <input type="url" id="trackAudioUrl" placeholder="https://example.com/song.mp3">
-                    <p class="admin-label-hint">Paste a direct link to an MP3 file</p>
+                <div class="admin-form-group">
+                    <label>Audio File *</label>
+                    
+                    <div class="upload-tabs">
+                        <button type="button" class="upload-tab active" data-tab="file">
+                            📁 Upload from device
+                        </button>
+                        <button type="button" class="upload-tab" data-tab="url">
+                            🔗 Use URL instead
+                        </button>
+                    </div>
+
+                    <div id="filePanel" class="upload-panel">
+                        <div class="file-drop-zone" id="fileDropZone">
+                            <input type="file" id="trackFile" accept="audio/*" hidden>
+                            <div id="dropZoneContent">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                                <p class="drop-title">Click to select or drag & drop</p>
+                                <p class="drop-sub">MP3, WAV, M4A up to 50MB</p>
+                            </div>
+                            <div id="uploadProgress" style="display:none;">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <p class="progress-text" id="progressText">Uploading...</p>
+                            </div>
+                            <div id="uploadedFile" style="display:none;">
+                                <div class="uploaded-icon">✓</div>
+                                <p class="uploaded-name" id="uploadedName"></p>
+                                <button type="button" class="admin-btn admin-btn-ghost admin-btn-small" onclick="resetFileUpload()">Change File</button>
+                            </div>
+                        </div>
+                        <input type="hidden" id="trackAudioUrlFromFile">
+                    </div>
+
+                    <div id="urlPanel" class="upload-panel" style="display:none;">
+                        <input type="url" id="trackAudioUrl" placeholder="https://example.com/song.mp3">
+                        <p class="admin-label-hint">Paste a direct link to an MP3 file</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="admin-form-group">
-                <label>Duration</label>
-                <input type="text" id="trackDuration" placeholder="3:24 (auto-detected if uploaded)">
-            </div>
-
-            <div class="admin-form-group">
-                <label>Cover Color</label>
-                <div class="admin-color-picker" id="trackColorPicker">
-                    <button type="button" class="admin-color-swatch active" data-color="linear-gradient(135deg, #6a1b9a, #2a0845)" style="background: linear-gradient(135deg, #6a1b9a, #2a0845);"></button>
-                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #c026d3, #4a044e)" style="background: linear-gradient(135deg, #c026d3, #4a044e);"></button>
-                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #dc2626, #450a0a)" style="background: linear-gradient(135deg, #dc2626, #450a0a);"></button>
-                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #059669, #064e3b)" style="background: linear-gradient(135deg, #059669, #064e3b);"></button>
-                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #ea580c, #7c2d12)" style="background: linear-gradient(135deg, #ea580c, #7c2d12);"></button>
-                    <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #0891b2, #164e63)" style="background: linear-gradient(135deg, #0891b2, #164e63);"></button>
+                <div class="admin-form-group">
+                    <label>Duration</label>
+                    <input type="text" id="trackDuration" placeholder="3:24 (auto-detected if uploaded)">
                 </div>
-            </div>
 
-            <div class="admin-form-group">
-                <label class="admin-checkbox-label">
-                    <input type="checkbox" id="trackFeatured">
-                    <span>Feature this track</span>
-                </label>
-            </div>
+                <div class="admin-form-group">
+                    <label>Cover Color</label>
+                    <div class="admin-color-picker" id="trackColorPicker">
+                        <button type="button" class="admin-color-swatch active" data-color="linear-gradient(135deg, #6a1b9a, #2a0845)" style="background: linear-gradient(135deg, #6a1b9a, #2a0845);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #c026d3, #4a044e)" style="background: linear-gradient(135deg, #c026d3, #4a044e);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #dc2626, #450a0a)" style="background: linear-gradient(135deg, #dc2626, #450a0a);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #059669, #064e3b)" style="background: linear-gradient(135deg, #059669, #064e3b);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #ea580c, #7c2d12)" style="background: linear-gradient(135deg, #ea580c, #7c2d12);"></button>
+                        <button type="button" class="admin-color-swatch" data-color="linear-gradient(135deg, #0891b2, #164e63)" style="background: linear-gradient(135deg, #0891b2, #164e63);"></button>
+                    </div>
+                </div>
 
-            <div class="admin-form-actions">
-                <button type="button" class="admin-btn admin-btn-ghost" onclick="closeTrackModal()">Cancel</button>
-                <button type="submit" class="admin-btn admin-btn-primary" id="saveTrackBtn">Save Track</button>
-            </div>
-        </form>
+                <div class="admin-form-group">
+                    <label class="admin-checkbox-label">
+                        <input type="checkbox" id="trackFeatured">
+                        <span>Feature this track</span>
+                    </label>
+                </div>
+
+                <div class="admin-form-actions">
+                    <button type="button" class="admin-btn admin-btn-ghost" onclick="closeTrackModal()">Cancel</button>
+                    <button type="submit" class="admin-btn admin-btn-primary" id="saveTrackBtn">Save Track</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/supabase.js"></script>

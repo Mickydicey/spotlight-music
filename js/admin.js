@@ -11,6 +11,16 @@ const waitForDB = () => new Promise((resolve) => {
     check();
 });
 
+// ===== MOBILE SIDEBAR TOGGLE =====
+function toggleAdminSidebar() {
+    const sidebar = document.querySelector('.admin-sidebar');
+    const overlay = document.getElementById('adminSidebarOverlay');
+    if (sidebar && overlay) {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('show');
+    }
+}
+
 // ===== AUTHENTICATION =====
 
 async function checkAuth() {
@@ -128,9 +138,9 @@ async function loadDashboard() {
         table.innerHTML = recentArticles.map(a => `
             <tr>
                 <td><strong>${a.title}</strong></td>
-                <td>${a.category}</td>
-                <td>${a.artists ? a.artists.name : '—'}</td>
-                <td>${new Date(a.created_at).toLocaleDateString()}</td>
+                <td data-label="Category">${a.category}</td>
+                <td data-label="Artist">${a.artists ? a.artists.name : '—'}</td>
+                <td data-label="Published">${new Date(a.created_at).toLocaleDateString()}</td>
                 <td class="admin-table-actions">
                     <a href="../pages/article.html?slug=${a.slug}" target="_blank" class="admin-btn admin-btn-ghost admin-btn-small">View</a>
                 </td>
@@ -154,9 +164,9 @@ async function loadArticlesPage() {
         table.innerHTML = articles.map(a => `
             <tr>
                 <td><strong>${a.title}</strong></td>
-                <td>${a.category}</td>
-                <td>${a.artists ? a.artists.name : '—'}</td>
-                <td>${new Date(a.created_at).toLocaleDateString()}</td>
+                <td data-label="Category">${a.category}</td>
+                <td data-label="Artist">${a.artists ? a.artists.name : '—'}</td>
+                <td data-label="Published">${new Date(a.created_at).toLocaleDateString()}</td>
                 <td class="admin-table-actions">
                     <a href="../pages/article.html?slug=${a.slug}" target="_blank" class="admin-btn admin-btn-ghost admin-btn-small">View</a>
                     <button onclick="deleteArticle(${a.id})" class="admin-btn admin-btn-danger admin-btn-small">Delete</button>
@@ -327,9 +337,9 @@ async function loadArtistsPage() {
                         <strong>${a.name}</strong>
                     </div>
                 </td>
-                <td>${a.genre}</td>
-                <td>${a.city}</td>
-                <td>${a.is_verified ? '✓' : '—'}</td>
+                <td data-label="Genre">${a.genre}</td>
+                <td data-label="City">${a.city}</td>
+                <td data-label="Verified">${a.is_verified ? '✓ Yes' : '— No'}</td>
                 <td class="admin-table-actions">
                     <a href="../pages/artist-profile.html?slug=${a.slug}" target="_blank" class="admin-btn admin-btn-ghost admin-btn-small">View</a>
                     <button onclick='editArtist(${JSON.stringify(a).replace(/'/g, "&apos;")})' class="admin-btn admin-btn-ghost admin-btn-small">Edit</button>
@@ -434,9 +444,7 @@ async function saveArtist(e) {
     loadArtistsPage();
 }
 
-// ===================================
-// TRACK FILE UPLOAD (NEW!)
-// ===================================
+// ===== TRACK FILE UPLOAD =====
 
 let uploadedFileUrl = null;
 let uploadedFileDuration = null;
@@ -447,14 +455,12 @@ function initTrackFileUpload() {
 
     if (!fileInput || !dropZone) return;
 
-    // Click to select
     dropZone.addEventListener('click', (e) => {
         if (e.target.tagName !== 'BUTTON') {
             fileInput.click();
         }
     });
 
-    // Drag and drop
     dropZone.addEventListener('dragover', (e) => {
         e.preventDefault();
         dropZone.style.borderColor = '#e94560';
@@ -475,14 +481,12 @@ function initTrackFileUpload() {
         }
     });
 
-    // File selected
     fileInput.addEventListener('change', (e) => {
         if (e.target.files.length > 0) {
             handleFileSelect(e.target.files[0]);
         }
     });
 
-    // Upload tabs
     document.querySelectorAll('.upload-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.upload-tab').forEach(t => t.classList.remove('active'));
@@ -495,20 +499,17 @@ function initTrackFileUpload() {
 }
 
 async function handleFileSelect(file) {
-    // Validate file type
     if (!file.type.startsWith('audio/')) {
         alert('Please select an audio file (MP3, WAV, M4A)');
         return;
     }
 
-    // Validate size (50MB max)
     const maxSize = 50 * 1024 * 1024;
     if (file.size > maxSize) {
         alert('File too large! Maximum size is 50MB.');
         return;
     }
 
-    // Detect duration
     try {
         const duration = await getAudioDuration(file);
         uploadedFileDuration = duration;
@@ -517,18 +518,15 @@ async function handleFileSelect(file) {
         console.log('Could not detect duration');
     }
 
-    // Show progress
     document.getElementById('dropZoneContent').style.display = 'none';
     document.getElementById('uploadProgress').style.display = 'block';
     document.getElementById('uploadedFile').style.display = 'none';
 
-    // Generate unique filename
     const timestamp = Date.now();
     const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
     const fileName = `${timestamp}_${cleanName}`;
 
     try {
-        // Upload to Supabase Storage
         const { data, error } = await db.storage
             .from('tracks')
             .upload(fileName, file, {
@@ -542,7 +540,6 @@ async function handleFileSelect(file) {
             return;
         }
 
-        // Get public URL
         const { data: urlData } = db.storage
             .from('tracks')
             .getPublicUrl(fileName);
@@ -550,7 +547,6 @@ async function handleFileSelect(file) {
         uploadedFileUrl = urlData.publicUrl;
         document.getElementById('trackAudioUrlFromFile').value = uploadedFileUrl;
 
-        // Show success
         document.getElementById('uploadProgress').style.display = 'none';
         document.getElementById('uploadedFile').style.display = 'block';
         document.getElementById('uploadedName').textContent = file.name;
@@ -590,9 +586,7 @@ function resetFileUpload() {
     if (uploaded) uploaded.style.display = 'none';
 }
 
-// ===================================
-// TRACKS PAGE
-// ===================================
+// ===== TRACKS PAGE =====
 
 async function loadTracksPage() {
     const { data: tracks } = await db
@@ -610,9 +604,9 @@ async function loadTracksPage() {
                         <strong>${t.title}</strong>
                     </div>
                 </td>
-                <td>${t.artists ? t.artists.name : '—'}</td>
-                <td>${t.genre}</td>
-                <td>${t.duration}</td>
+                <td data-label="Artist">${t.artists ? t.artists.name : '—'}</td>
+                <td data-label="Genre">${t.genre}</td>
+                <td data-label="Duration">${t.duration}</td>
                 <td class="admin-table-actions">
                     <button onclick='editTrack(${JSON.stringify(t).replace(/'/g, "&apos;")})' class="admin-btn admin-btn-ghost admin-btn-small">Edit</button>
                     <button onclick="deleteTrack(${t.id})" class="admin-btn admin-btn-danger admin-btn-small">Delete</button>
@@ -623,7 +617,6 @@ async function loadTracksPage() {
         table.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px; color: var(--text-3);">No tracks yet.</td></tr>';
     }
 
-    // Load artists into dropdown
     const { data: artists } = await db.from('artists').select('id, name').order('name');
     const select = document.getElementById('trackArtist');
     if (select) {
@@ -657,7 +650,6 @@ function openTrackModal(track = null) {
         document.getElementById('trackFeatured').checked = track.is_featured;
         selectedTrackGradient = track.color_gradient;
         
-        // Show URL tab by default when editing
         document.querySelectorAll('.upload-tab').forEach(t => t.classList.remove('active'));
         const urlTab = document.querySelector('.upload-tab[data-tab="url"]');
         if (urlTab) urlTab.classList.add('active');
@@ -673,7 +665,6 @@ function openTrackModal(track = null) {
         document.getElementById('trackId').value = '';
         selectedTrackGradient = 'linear-gradient(135deg, #6a1b9a, #2a0845)';
         
-        // Show file upload tab by default
         document.querySelectorAll('.upload-tab').forEach(t => t.classList.remove('active'));
         const fileTab = document.querySelector('.upload-tab[data-tab="file"]');
         if (fileTab) fileTab.classList.add('active');
@@ -711,7 +702,6 @@ async function saveTrack(e) {
     btn.disabled = true;
     btn.textContent = 'Saving...';
 
-    // Get audio URL from either upload or URL field
     let audioUrl = uploadedFileUrl || document.getElementById('trackAudioUrl').value;
 
     if (!audioUrl) {
@@ -751,23 +741,18 @@ async function saveTrack(e) {
     loadTracksPage();
 }
 
-// ===================================
-// INITIALIZE PAGES
-// ===================================
+// ===== INITIALIZE PAGES =====
 
 window.addEventListener('DOMContentLoaded', async () => {
     const path = window.location.pathname;
 
-    // Login page — don't check auth
     if (path.endsWith('login.html')) {
         return;
     }
 
-    // All other admin pages — require auth
     const authed = await checkAuth();
     if (!authed) return;
 
-    // Route to correct page loader
     if (path.endsWith('/admin/') || path.endsWith('/admin/index.html')) {
         loadDashboard();
     } else if (path.endsWith('articles.html')) {

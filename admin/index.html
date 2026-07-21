@@ -10,6 +10,18 @@
 </head>
 <body class="admin-body">
 
+    <!-- Mobile Menu Button -->
+    <button class="admin-mobile-menu-btn" id="adminMobileMenu" onclick="toggleAdminSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="admin-sidebar-overlay" id="adminSidebarOverlay" onclick="toggleAdminSidebar()"></div>
+
     <!-- Admin Sidebar -->
     <aside class="admin-sidebar">
         <div class="admin-sidebar-logo">
@@ -67,7 +79,6 @@
             </div>
         </header>
 
-        <!-- Stats Cards -->
         <div class="admin-stats-grid">
             <div class="admin-stat-card">
                 <span class="admin-stat-label">Total Articles</span>
@@ -91,7 +102,6 @@
             </div>
         </div>
 
-        <!-- Quick Actions -->
         <div class="admin-section">
             <h2 class="admin-section-title">Quick Actions</h2>
             <div class="admin-quick-actions">
@@ -119,7 +129,6 @@
             </div>
         </div>
 
-        <!-- Recent Articles -->
         <div class="admin-section">
             <h2 class="admin-section-title">Recent Articles</h2>
             <div class="admin-table-container">
