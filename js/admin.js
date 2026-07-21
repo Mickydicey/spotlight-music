@@ -28,10 +28,16 @@ function createCustomSelect(selectElement) {
     if (!selectElement || selectElement.dataset.enhanced === 'true') return;
     selectElement.dataset.enhanced = 'true';
 
-    // Hide original
-    selectElement.style.display = 'none';
+    // Hide original but keep it accessible
+    selectElement.style.position = 'absolute';
+    selectElement.style.opacity = '0';
+    selectElement.style.pointerEvents = 'none';
+    selectElement.style.height = '1px';
+    selectElement.style.width = '1px';
+    selectElement.style.overflow = 'hidden';
+    selectElement.style.clip = 'rect(0 0 0 0)';
+    selectElement.tabIndex = -1;
 
-    // Build custom dropdown
     const wrapper = document.createElement('div');
     wrapper.className = 'custom-select';
     
@@ -52,7 +58,6 @@ function createCustomSelect(selectElement) {
     const optionsList = document.createElement('div');
     optionsList.className = 'custom-select-options';
     
-    // Function to set displayed value
     const updateDisplay = () => {
         const selected = selectElement.options[selectElement.selectedIndex];
         if (selected && selected.value) {
@@ -64,11 +69,10 @@ function createCustomSelect(selectElement) {
         }
     };
     
-    // Build options
     const buildOptions = () => {
         optionsList.innerHTML = '';
         Array.from(selectElement.options).forEach((option, i) => {
-            if (!option.value && i === 0) return; // Skip placeholder in list
+            if (!option.value && i === 0) return;
             
             const opt = document.createElement('div');
             opt.className = 'custom-select-option';
@@ -79,10 +83,9 @@ function createCustomSelect(selectElement) {
             opt.addEventListener('click', (e) => {
                 e.stopPropagation();
                 selectElement.value = option.value;
-                selectElement.dispatchEvent(new Event('change'));
+                selectElement.dispatchEvent(new Event('change', { bubbles: true }));
                 updateDisplay();
                 
-                // Update selected class
                 optionsList.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('selected'));
                 opt.classList.add('selected');
                 
@@ -96,22 +99,18 @@ function createCustomSelect(selectElement) {
     buildOptions();
     updateDisplay();
     
-    // Toggle dropdown
     trigger.addEventListener('click', (e) => {
         e.stopPropagation();
-        // Close other dropdowns
         document.querySelectorAll('.custom-select.open').forEach(s => {
             if (s !== wrapper) s.classList.remove('open');
         });
         wrapper.classList.toggle('open');
     });
     
-    // Close on outside click
     document.addEventListener('click', () => {
         wrapper.classList.remove('open');
     });
     
-    // Handle programmatic changes
     selectElement.addEventListener('change', () => {
         updateDisplay();
         optionsList.querySelectorAll('.custom-select-option').forEach(o => {
@@ -119,19 +118,17 @@ function createCustomSelect(selectElement) {
         });
     });
     
-    // Method to refresh options (when we add artists to trackArtist dropdown)
     selectElement.refreshOptions = () => {
         buildOptions();
         updateDisplay();
     };
     
-    // Insert into DOM
+    selectElement.parentNode.insertBefore(wrapper, selectElement);
+    wrapper.appendChild(selectElement);
     wrapper.appendChild(trigger);
     wrapper.appendChild(optionsList);
-    selectElement.parentNode.insertBefore(wrapper, selectElement.nextSibling);
 }
 
-// Enhance all selects with class or specific IDs
 function enhanceAllSelects() {
     const selectsToEnhance = [
         'articleCategory',
@@ -157,7 +154,7 @@ async function uploadImage(file) {
         return null;
     }
     
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
         alert('Image too large! Maximum size is 5MB.');
         return null;
@@ -197,15 +194,12 @@ function initImageUpload(zoneId, hiddenInputId) {
     if (!zone || !hiddenInput) return;
     
     const fileInput = zone.querySelector('input[type="file"]');
-    const uploadContent = zone.querySelector('.image-upload-content');
     
-    // Click to select
     zone.addEventListener('click', (e) => {
         if (e.target.classList.contains('image-remove-btn')) return;
         fileInput.click();
     });
     
-    // Drag and drop
     zone.addEventListener('dragover', (e) => {
         e.preventDefault();
         zone.style.borderColor = '#e94560';
@@ -234,7 +228,6 @@ function initImageUpload(zoneId, hiddenInputId) {
 }
 
 async function handleImageSelect(file, zone, hiddenInput) {
-    // Show loading
     zone.innerHTML = `
         <div class="image-uploading">
             <div class="image-upload-spinner"></div>
@@ -266,7 +259,6 @@ function showImagePreview(zone, url, hiddenInput) {
         </div>
     `;
     zone.dataset.hiddenInput = hiddenInput.id;
-    // Re-attach file input for future uploads (but hidden until removed)
 }
 
 function removeImage(btn) {
@@ -279,11 +271,8 @@ function removeImage(btn) {
 
 function resetImageZone(zone) {
     zone.classList.remove('has-image');
-    const isArtistImage = zone.id.includes('artist') || zone.id === 'artistImageZone';
-    const zoneId = zone.id;
-    const inputId = zone.dataset.hiddenInput || (zoneId === 'artistImageZone' ? 'artistImageUrl' : 
-                                                    zoneId === 'articleImageZone' ? 'articleImageUrl' : 
-                                                    'trackImageUrl');
+    const hiddenInputId = zone.dataset.hiddenInput || 'artistImageUrl';
+    const inputId = zone.dataset.hiddenInput;
     
     zone.innerHTML = `
         <input type="file" accept="image/*" hidden>
@@ -297,7 +286,7 @@ function resetImageZone(zone) {
             <p class="upload-sub">JPG, PNG, WEBP up to 5MB</p>
         </div>
     `;
-    initImageUpload(zoneId, inputId);
+    initImageUpload(zone.id, inputId);
 }
 
 // ===================================
@@ -493,7 +482,6 @@ async function initNewArticle() {
         });
     }
 
-    // Load artists into dropdown
     const { data: artists } = await db
         .from('artists')
         .select('id, name')
@@ -507,12 +495,10 @@ async function initNewArticle() {
             option.textContent = a.name;
             select.appendChild(option);
         });
+        if (select.refreshOptions) select.refreshOptions();
     }
 
-    // Enhance selects with custom dropdown
     enhanceAllSelects();
-
-    // Initialize image upload
     initImageUpload('articleImageZone', 'articleImageUrl');
 
     document.getElementById('articleTitle').addEventListener('input', (e) => {
@@ -552,6 +538,14 @@ async function initNewArticle() {
     document.getElementById('articleForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
+        const title = document.getElementById('articleTitle').value.trim();
+        const slug = document.getElementById('articleSlug').value.trim();
+        const category = document.getElementById('articleCategory').value;
+        
+        if (!title) { alert('Please enter article title'); return; }
+        if (!slug) { alert('Please enter URL slug'); return; }
+        if (!category) { alert('Please select a category'); return; }
+
         let content = '';
         if (currentEditorMode === 'rich') {
             content = quillEditor.root.innerHTML;
@@ -569,12 +563,12 @@ async function initNewArticle() {
         btn.textContent = 'Publishing...';
 
         const article = {
-            title: document.getElementById('articleTitle').value,
-            slug: document.getElementById('articleSlug').value,
+            title: title,
+            slug: slug,
             subtitle: document.getElementById('articleSubtitle').value,
             excerpt: document.getElementById('articleExcerpt').value,
             content: content,
-            category: document.getElementById('articleCategory').value,
+            category: category,
             tag: document.getElementById('articleTag').value,
             cover_gradient: selectedGradient,
             cover_image_url: document.getElementById('articleImageUrl').value || null,
@@ -588,6 +582,7 @@ async function initNewArticle() {
 
         if (error) {
             showMessage('Error: ' + error.message, 'error');
+            console.error('Save error:', error);
             btn.disabled = false;
             btn.textContent = 'Publish Article';
             return;
@@ -651,10 +646,8 @@ let selectedArtistGradient = 'linear-gradient(135deg, #6a1b9a, #2a0845)';
 function openArtistModal(artist = null) {
     document.getElementById('artistModal').style.display = 'flex';
     
-    // Enhance selects when modal opens (in case they weren't enhanced yet)
     setTimeout(() => enhanceAllSelects(), 100);
     
-    // Reset image zone
     const imageZone = document.getElementById('artistImageZone');
     if (imageZone) {
         resetImageZone(imageZone);
@@ -667,8 +660,9 @@ function openArtistModal(artist = null) {
         document.getElementById('artistInitial').value = artist.initial;
         document.getElementById('artistSlug').value = artist.slug;
         document.getElementById('artistGenre').value = artist.genre;
-        // Trigger change to update custom select
-        document.getElementById('artistGenre').dispatchEvent(new Event('change'));
+        if (document.getElementById('artistGenre').refreshOptions) {
+            document.getElementById('artistGenre').refreshOptions();
+        }
         document.getElementById('artistCity').value = artist.city;
         document.getElementById('artistBio').value = artist.bio || '';
         document.getElementById('artistInstagram').value = artist.instagram || '';
@@ -677,8 +671,7 @@ function openArtistModal(artist = null) {
         document.getElementById('artistVerified').checked = artist.is_verified;
         selectedArtistGradient = artist.color_gradient;
         
-        // Show existing image if any
-        if (artist.image_url) {
+        if (artist.image_url && imageZone) {
             document.getElementById('artistImageUrl').value = artist.image_url;
             showImagePreview(imageZone, artist.image_url, document.getElementById('artistImageUrl'));
         }
@@ -720,15 +713,28 @@ async function saveArtist(e) {
     e.preventDefault();
 
     const btn = document.getElementById('saveArtistBtn');
+
+    const name = document.getElementById('artistName').value.trim();
+    const initial = document.getElementById('artistInitial').value.trim();
+    const slug = document.getElementById('artistSlug').value.trim();
+    const genre = document.getElementById('artistGenre').value;
+    const city = document.getElementById('artistCity').value.trim();
+    
+    if (!name) { alert('Please enter artist name'); return; }
+    if (!initial) { alert('Please enter artist initial'); return; }
+    if (!slug) { alert('Please enter URL slug'); return; }
+    if (!genre) { alert('Please select a genre'); return; }
+    if (!city) { alert('Please enter city'); return; }
+
     btn.disabled = true;
     btn.textContent = 'Saving...';
 
     const artist = {
-        name: document.getElementById('artistName').value,
-        initial: document.getElementById('artistInitial').value.toUpperCase(),
-        slug: document.getElementById('artistSlug').value,
-        genre: document.getElementById('artistGenre').value,
-        city: document.getElementById('artistCity').value,
+        name: name,
+        initial: initial.toUpperCase(),
+        slug: slug,
+        genre: genre,
+        city: city,
         bio: document.getElementById('artistBio').value,
         instagram: document.getElementById('artistInstagram').value,
         twitter: document.getElementById('artistTwitter').value,
@@ -749,11 +755,13 @@ async function saveArtist(e) {
 
     if (result.error) {
         alert('Error: ' + result.error.message);
+        console.error('Save error:', result.error);
         btn.disabled = false;
         btn.textContent = 'Save Artist';
         return;
     }
 
+    alert('✓ Artist saved successfully!');
     closeArtistModal();
     loadArtistsPage();
 }
@@ -936,7 +944,6 @@ async function loadTracksPage() {
         table.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px; color: var(--text-3);">No tracks yet.</td></tr>';
     }
 
-    // Load artists into dropdown
     const { data: artists } = await db.from('artists').select('id, name').order('name');
     const select = document.getElementById('trackArtist');
     if (select) {
@@ -949,7 +956,6 @@ async function loadTracksPage() {
                 select.appendChild(option);
             });
         }
-        // Refresh custom select if it exists
         if (select.refreshOptions) select.refreshOptions();
     }
 }
@@ -961,10 +967,8 @@ function openTrackModal(track = null) {
     resetFileUpload();
     uploadedFileUrl = null;
     
-    // Enhance selects
     setTimeout(() => enhanceAllSelects(), 100);
     
-    // Reset image zone
     const imageZone = document.getElementById('trackImageZone');
     if (imageZone) {
         resetImageZone(imageZone);
@@ -975,15 +979,18 @@ function openTrackModal(track = null) {
         document.getElementById('trackId').value = track.id;
         document.getElementById('trackTitle').value = track.title;
         document.getElementById('trackArtist').value = track.artist_id;
-        document.getElementById('trackArtist').dispatchEvent(new Event('change'));
+        if (document.getElementById('trackArtist').refreshOptions) {
+            document.getElementById('trackArtist').refreshOptions();
+        }
         document.getElementById('trackGenre').value = track.genre;
-        document.getElementById('trackGenre').dispatchEvent(new Event('change'));
+        if (document.getElementById('trackGenre').refreshOptions) {
+            document.getElementById('trackGenre').refreshOptions();
+        }
         document.getElementById('trackAudioUrl').value = track.audio_url;
         document.getElementById('trackDuration').value = track.duration;
         document.getElementById('trackFeatured').checked = track.is_featured;
         selectedTrackGradient = track.color_gradient;
         
-        // Show existing image if any
         if (track.cover_image_url && imageZone) {
             document.getElementById('trackImageUrl').value = track.cover_image_url;
             showImagePreview(imageZone, track.cover_image_url, document.getElementById('trackImageUrl'));
@@ -1041,22 +1048,41 @@ async function saveTrack(e) {
     e.preventDefault();
 
     const btn = document.getElementById('saveTrackBtn');
-    btn.disabled = true;
-    btn.textContent = 'Saving...';
+
+    const title = document.getElementById('trackTitle').value.trim();
+    const artistId = document.getElementById('trackArtist').value;
+    const genre = document.getElementById('trackGenre').value;
+    
+    if (!title) {
+        alert('Please enter a track title');
+        document.getElementById('trackTitle').focus();
+        return;
+    }
+    
+    if (!artistId) {
+        alert('Please select an artist');
+        return;
+    }
+    
+    if (!genre) {
+        alert('Please select a genre');
+        return;
+    }
 
     let audioUrl = uploadedFileUrl || document.getElementById('trackAudioUrl').value;
 
     if (!audioUrl) {
-        alert('Please upload a file or enter an audio URL');
-        btn.disabled = false;
-        btn.textContent = 'Save Track';
+        alert('Please upload an audio file or enter an audio URL');
         return;
     }
 
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
     const track = {
-        title: document.getElementById('trackTitle').value,
-        artist_id: parseInt(document.getElementById('trackArtist').value),
-        genre: document.getElementById('trackGenre').value,
+        title: title,
+        artist_id: parseInt(artistId),
+        genre: genre,
         audio_url: audioUrl,
         duration: document.getElementById('trackDuration').value || '3:24',
         color_gradient: selectedTrackGradient,
@@ -1075,11 +1101,13 @@ async function saveTrack(e) {
 
     if (result.error) {
         alert('Error: ' + result.error.message);
+        console.error('Save error:', result.error);
         btn.disabled = false;
         btn.textContent = 'Save Track';
         return;
     }
 
+    alert('✓ Track saved successfully!');
     closeTrackModal();
     loadTracksPage();
 }
