@@ -6,14 +6,59 @@ if (navbar) {
     });
 }
 
-// ===== MOBILE MENU =====
+// ===== MODERN MOBILE MENU =====
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
+
+// Create overlay if it doesn't exist
+let overlay = document.querySelector('.nav-overlay');
+if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+}
+
+const closeMenu = () => {
+    navLinks.classList.remove('active');
+    hamburger.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.classList.remove('menu-open');
+};
+
+const toggleMenu = () => {
+    const isActive = navLinks.classList.contains('active');
+    if (isActive) {
+        closeMenu();
+    } else {
+        navLinks.classList.add('active');
+        hamburger.classList.add('active');
+        overlay.classList.add('active');
+        document.body.classList.add('menu-open');
+    }
+};
+
 if (hamburger) {
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
+    hamburger.addEventListener('click', toggleMenu);
+}
+
+// Close menu when clicking overlay
+if (overlay) {
+    overlay.addEventListener('click', closeMenu);
+}
+
+// Close menu when clicking any link
+if (navLinks) {
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMenu);
     });
 }
+
+// Close menu on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeMenu();
+    }
+});
 
 // ===================================
 // MEDIA PLAYER - CONNECTED TO DATABASE
